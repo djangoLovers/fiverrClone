@@ -67,7 +67,7 @@ WSGI_APPLICATION = 'fiverrClone.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.fiverrClone',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
