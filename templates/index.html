@@ -1,7 +1,9 @@
 {% extends 'partials/main.html' %}
-
 {% block content %}
 
-<h1>Welcome to the home page</h1>
+    <h1>Welcome to the home page</h1>
+    {% if user.is_authenticated %}
+        <p>Welcome {{ user.username }} !!!</p>
+    {% endif %}
 
 {% endblock %}
