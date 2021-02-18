@@ -32,6 +32,8 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 AUTH_USER_MODEL = 'accounts.UserProfile'
+LOGIN_REDIRECT_URL = '/'
+
 
 
 MIDDLEWARE = [
@@ -71,6 +73,7 @@ DATABASES = {
     }
 }
 
+SOCIALACCOUNT_QUERY_EMAIL  = True
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'fiverr': {
