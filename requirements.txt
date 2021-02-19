@@ -3,3 +3,4 @@ django-dotenv==1.4.2
 django-allauth==0.44.0
 mysqlclient==2.0.3
 django-countries==7.0
+django-crispy-forms==1.11.0
