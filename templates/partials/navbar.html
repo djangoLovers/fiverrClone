@@ -14,8 +14,9 @@
             <div class="navbar-nav" id="right-nav">
                 {% if user.is_authenticated %}
                     <a class="nav-link active" href="/accounts/logout">Logout</a>
+                    <a class="nav-link active" href="{% url 'users:detail' request.user.full_name %}">My Profile</a>
                 {% else %}
-                     <a href="{% provider_login_url 'google' %}">Login</a>
+                    <a href="{% provider_login_url 'google' %}">Login</a>
                 {% endif %}
             </div>
         </div>

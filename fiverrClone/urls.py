@@ -5,6 +5,7 @@ from accounts.views import index
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', index)
+    path('', index),
+    path('user/', include('accounts.urls', namespace='users')),
 
 ]

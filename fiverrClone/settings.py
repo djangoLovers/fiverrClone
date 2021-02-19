@@ -22,10 +22,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+
+    # third-party apps
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'crispy_forms',
+
+
+    # local apps
     'accounts'
 ]
 
@@ -34,6 +40,7 @@ SITE_ID = 1
 AUTH_USER_MODEL = 'accounts.UserProfile'
 LOGIN_REDIRECT_URL = '/'
 
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 
 MIDDLEWARE = [
