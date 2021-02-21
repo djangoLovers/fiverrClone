@@ -33,12 +33,13 @@ INSTALLED_APPS = [
     # local apps
     'core',
     'users',
+    'gigs',
 
 ]
 
 SITE_ID = 1
 
-AUTH_USER_MODEL = 'core.UserProfile'
+AUTH_USER_MODEL = 'users.UserProfile'
 LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
