@@ -1,6 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from core.decorators import isLogged
 from .models import Gig, Category
 from .forms import GigForm
 
@@ -30,7 +30,7 @@ def show(request, id):
     return render(request, 'gigs/show.html', context)
 
 
-@isLogged
+@login_required(login_url='/accounts/google/login/')
 def new(request):
     categorys = Category.objects.all()
     form = GigForm()
@@ -38,6 +38,7 @@ def new(request):
     return render(request, 'gigs/new.html', context)
 
 
+@login_required(login_url='/accounts/google/login/')
 def edit(request, id):
     gig = Gig.objects.get(id=id)
     context = {'title': f'Editing {gig.name}', 'gig': gig}

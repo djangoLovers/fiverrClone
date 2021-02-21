@@ -1,17 +1,14 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.contrib import messages
-from core.decorators import isLogged, notLogged
 from .forms import UserProfileForm
 
 
-@isLogged
 def index(request):
     context = {'title': 'Users'}
     return render(request, 'users/index.html', context)
 
 
-@isLogged
 def show(request, id):
     if request.method == 'POST':
         form = UserProfileForm(data=request.POST, instance=request.user)
@@ -24,7 +21,7 @@ def show(request, id):
     return render(request, 'users/show.html', context)
 
 
-@isLogged
+@login_required(login_url='/accounts/google/login/')
 def edit(request, id):
     context = {'title': f'Editing {request.user}'}
     return render(request, 'users/edit.html', context)
