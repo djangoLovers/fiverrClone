@@ -6,3 +6,7 @@ a, a:hover{
 #right-nav {
   margin-left: auto;
 }
+
+button.btn,button.btn:hover {
+  color: #ffffff;
+}

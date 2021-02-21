@@ -1,35 +1,43 @@
 from django.db import models
-from django.conf import settings
-from django.core.validators import MaxValueValidator
+from django.db.models.fields.related import ForeignKey
+from django.db.models.deletion import CASCADE
+from django.contrib.auth import get_user_model
 
-# Create your models here.
+UserProfile = get_user_model()
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.name
+
+
 class Gig(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, related_name="gigs")
-    title = models.CharField("Gig title", max_length=80, blank=False)
-    price = models.IntegerField("Gig price", null=False, blank=False)
-    description = models.TextField("Describe the gig")
-    categories  = models.ManyToManyField(Categories)
-    created_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(UserProfile, on_delete=CASCADE, blank=True)
+    name = models.CharField(max_length=90)
+    dateCreated = models.DateTimeField(auto_now_add=True)
+    category = models.ManyToManyField(Category)
 
-class Categories(models.Model):
-    name = models.CharField("Name", max_length=15, blank=False)
+    def __str__(self):
+        return self.name
 
 
-class Review(models.Model);
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, related_name="gigs")
-    gig = models.ForeignKey(Gig, on_delete=models.CASCADE)
-    rate = models.PositiveIntegerField(validators=[MaxValueValidator(5)])
-    content = models.CharField(max_length=200, blank=False)
-    
+class Comment(models.Model):
+    user = ForeignKey(UserProfile, on_delete=CASCADE)
+    gig = ForeignKey(Gig, on_delete=CASCADE)
+    body = models.CharField(max_length=255)
+    rating = models.IntegerField()
+    dateCreated = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.gig} - {self.user} - {self.rating}'
+
 
 class Order(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE, related_name="gigs")
-    gig = models.ForeignKey(Gig, on_delete=models.CASCADE, related_name="orders")
-    created_date = models.DateTimeField(auto_now_add=True)
+    user = ForeignKey(UserProfile, on_delete=CASCADE)
+    gig = ForeignKey(Gig, on_delete=CASCADE)
+    dateCreated = models.DateTimeField(auto_now_add=True)
 
-
-
-
+    def __str__(self):
+        return f'{self.gig} - {self.user}'

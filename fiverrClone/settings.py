@@ -28,20 +28,19 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'crispy_forms',
-
+    'django_countries',
 
     # local apps
-    'accounts'
+    'core',
+    'users',
+    'gigs',
+
 ]
 
 SITE_ID = 1
 
-AUTH_USER_MODEL = 'accounts.UserProfile'
+AUTH_USER_MODEL = 'users.UserProfile'
 LOGIN_REDIRECT_URL = '/'
-
-CRISPY_TEMPLATE_PACK = "bootstrap4"
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,7 +79,7 @@ DATABASES = {
     }
 }
 
-SOCIALACCOUNT_QUERY_EMAIL  = True
+SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'fiverr': {
