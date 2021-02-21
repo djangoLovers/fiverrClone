@@ -4,7 +4,7 @@
 <div class="col-6 offset-3">
 
     <div class=" row ">
-        <form action="{% url 'gigs:index' %}" class="needs-validation" method="POST" novalidate>
+        <form action="{% url 'gigs:new' %}" class="needs-validation" method="POST" novalidate>
             {% csrf_token %}
 
             <h1 class="mb-4 col-md-6">Create a New Gig</h1>
