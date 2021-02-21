@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import UserProfile, Gig, Order, Comment, Category
+from users.models import UserProfile
+from gigs.models import Gig, Order, Comment, Category
 
 admin.site.register(UserProfile)
 admin.site.register(Gig)
