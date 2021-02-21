@@ -1,0 +1,11 @@
+{% extends 'partials/main.html' %}
+{% block content %}
+
+{% for gig in gigs %}
+
+<a href="{% url 'gigs:show' gig.id %}">{{ gig.name }}</a>
+<br>
+
+{% endfor %}
+
+{% endblock %}
