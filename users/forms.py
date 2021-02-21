@@ -1,6 +1,5 @@
 from django.forms import ModelForm
-from core.models import UserProfile
-from django.contrib.auth.forms import UserCreationForm
+from .models import UserProfile
 
 
 class UserProfileForm(ModelForm):
