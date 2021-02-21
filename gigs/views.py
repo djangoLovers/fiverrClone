@@ -28,7 +28,7 @@ def new(request):
             newForm.user = request.user
             newForm.save()
             messages.success(request, 'Gig Successfully Created')
-            return redirect('gigs:show', newForm.id)
+            return redirect(newForm.get_absolute_url())
         else:
             messages.error(request, 'Somthing Went Wrong ..')
 
@@ -48,7 +48,7 @@ def edit(request, id):
             gig.user = request.user
             gig.save()
             messages.success(request, 'Gig Successfully Updated')
-            return redirect('gigs:show', gig.id)
+            return redirect(gig.get_absolute_url())
         else:
             messages.error(request, 'Somthing Went Wrong...')
 

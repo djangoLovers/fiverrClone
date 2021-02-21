@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.db.models.fields.related import ForeignKey
 from django.db.models.deletion import CASCADE
 from django.contrib.auth import get_user_model
@@ -22,6 +23,10 @@ class Gig(models.Model):
     dateCreated = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category)
 
+
+    def get_absolute_url(self):
+        return reverse("gigs:show", kwargs={"id": self.id})
+    
 
     def __str__(self):
         return self.name
