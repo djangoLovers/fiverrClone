@@ -33,8 +33,7 @@ def show(request, id):
 @login_required(login_url='/accounts/google/login/')
 def new(request):
     categorys = Category.objects.all()
-    form = GigForm()
-    context = {'title': 'New Gig', 'form': form, 'categorys': categorys}
+    context = {'title': 'New Gig', 'categorys': categorys}
     return render(request, 'gigs/new.html', context)
 
 
