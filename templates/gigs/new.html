@@ -4,7 +4,7 @@
 <div class="col-6 offset-3">
 
     <div class=" row ">
-        <form action="{% url 'gigs:index' %}" class="needs-validation" method="POST" novalidate>
+        <form action="{% url 'gigs:new' %}" class="needs-validation" method="POST" novalidate>
             {% csrf_token %}
 
             <h1 class="mb-4 col-md-6">Create a New Gig</h1>
@@ -42,7 +42,7 @@
 
             <div class="row">
                 <div class="mb-3 col-12">
-                    <label class="form-label" for="category">Gig Price</label>
+                    <label class="form-label" for="category">category</label>
                     <select class="form-select" name="category" id="category" multiple required>
                         {% for category in categorys %}
                         <option value="{{ category.id }}">{{ category }}</option>
