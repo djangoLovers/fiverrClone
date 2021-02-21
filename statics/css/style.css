@@ -10,3 +10,15 @@ a, a:hover{
 button.btn,button.btn:hover {
   color: #ffffff;
 }
+
+h1.logout {
+    margin: 70px 0 0 180px;
+}
+
+button.logout {
+    margin: 0 0 0 60px;
+}
+
+a.logout {
+    margin: 0 0 0 60px;
+}

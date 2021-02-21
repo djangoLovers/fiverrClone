@@ -2,14 +2,13 @@
 {% load countries %}
 {% block content %}
 
-<form action="/accounts/logout/" method="POST">
+<form class="row offset-3" action="/accounts/logout/" method="POST">
     {% csrf_token %}
 
-    <div class="row">
-        <h1 class="col-md-12 mb-5">Are You Sure ?</h1>
-        <a href="{% url 'core:index' %}" class="btn btn-primary col-md-3 mr-5">No take me Back !</a>
-        <button type="submit" class="btn btn-danger col-md-3 ml-5">Yes logout me Out !</button>
-    </div>
+    <h1 class="col-md-12 mb-5 logout">Are You Sure ?</h1>
+    <a href="{% url 'core:index' %}" class="btn btn-primary col-md-3 logout">No take me Back !</a>
+    <button type="submit" class="btn btn-danger col-md-3 logout">Yes logout me Out !</button>
+
 </form>
 
 {% endblock %}
