@@ -2,19 +2,6 @@
 {% load countries %}
 {% block content %}
 
-
-<style>
-    div.row {
-        margin: 200px 0 0 200px;
-    }
-
-    div.a,
-        {
-        margin-right: 30px;
-    }
-
-</style>
-
 <form action="/accounts/logout/" method="POST">
     {% csrf_token %}
 
