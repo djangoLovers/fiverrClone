@@ -1,8 +1,9 @@
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
 from django.contrib import messages
-from .models import Gig, Category
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
+
 from .forms import GigForm
+from .models import Category, Gig
 
 
 def index(request):
@@ -12,7 +13,16 @@ def index(request):
 
 
 def show(request, id):
-    gig = Gig.objects.get(id=id)
+    gig = get_object_or_404(Gig, id=id)
+    if request.method == 'POST':
+        form = GigForm(request.POST or None, instance=gig)
+        if form.is_valid():
+            gig = form.save(commit=False)
+            gig.user = request.user
+            gig.save()
+            messages.success(request, 'Gig Successfully Updated')
+        else:
+            messages.error(request, 'Somthing Went Wrong...')
     context = {'title': gig.name, 'gig': gig}
     return render(request, 'gigs/show.html', context)
 
@@ -28,22 +38,20 @@ def new(request):
             newForm.user = request.user
             newForm.save()
             messages.success(request, 'Gig Successfully Created')
-            return redirect('gigs:show', newForm.id)
+            return redirect(newForm.get_absolute_url())
         else:
             messages.error(request, 'Somthing Went Wrong ..')
-
     context = {'title': 'New Gig', 'form': form, 'categorys': categorys}
     return render(request, 'gigs/new.html', context)
 
 
 @login_required(login_url='/accounts/google/login/')
 def edit(request, id):
-    gig = Gig.objects.get(id=id)
-    Categorys = Category.objects.all()
+    gig = get_object_or_404(Gig, id=id)
+    categories = Category.objects.all()
     gigCategorys = Category.objects.filter(gig=gig.id)
     context = {
         'title': f'Editing {gig.name}', 'gig': gig,
-        'categorys': Categorys, 'gigCategorys': gigCategorys
+        'categorys': categories, 'gigCategorys': gigCategorys
     }
-    print(gigCategorys)
     return render(request, 'gigs/edit.html', context)
