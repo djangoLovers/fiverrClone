@@ -33,8 +33,7 @@ INSTALLED_APPS = [
     # local apps
     'core',
     'users',
-    'gigs',
-
+    'gigs'
 ]
 
 SITE_ID = 1
