@@ -24,8 +24,13 @@ class Review(models.Model);
     content = models.CharField(max_length=200, blank=False)
     
 
-clasr Order(models.Model):
+class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE, related_name="gigs")
     gig = models.ForeignKey(Gig, on_delete=models.CASCADE, related_name="orders")
     created_date = models.DateTimeField(auto_now_add=True)
+
+
+
+
+
