@@ -5,7 +5,7 @@
 <div class="col-6 offset-3">
 
     <div class=" row ">
-        <form action="{% url 'users:index' %}" class="needs-validation" method="POST" novalidate>
+        <form action="{% url 'users:show' user.id %}" class="needs-validation" method="POST" novalidate>
             {% csrf_token %}
 
             <div class="row">

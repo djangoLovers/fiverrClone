@@ -1,23 +1,6 @@
 {% extends 'partials/main.html' %}
 {% block content %}
 
-<div class="card">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title">{{ user }}</h5>
-        <p class="card-text">{{ user.description }}</p>
-    </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">{{ user.fullName }}</li>
-        <li class="list-group-item">Joined Since {{ user.dateCreated }}</li>
-        <li class="list-group-item">From {{ user.country }}</li>
-        <li class="list-group-item">Biography : {{ user.biography }}</li>
-    </ul>
-    <div class="card-body">
-        <button class="btn btn-primary"><a href="" class="card-link">Gigs</a></button>
-        <a href="{% url 'users:edit' %}" class="card-link"><button class="btn btn-info">Edit Profile</button></a>
-    </div>
-</div>
 
 
 {% endblock %}

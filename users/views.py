@@ -7,23 +7,24 @@ from .forms import UserProfileForm
 
 @isLogged
 def index(request):
+    context = {'title': 'Users'}
+    return render(request, 'users/index.html', context)
+
+
+@isLogged
+def show(request, id):
     if request.method == 'POST':
         form = UserProfileForm(data=request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile Successfully Updated')
-            return redirect('users:index')
-        return render(request, 'users/edit.html')
-    context = {}
-    return render(request, 'users/index.html', context)
+        else:
+            return render(request, 'users/edit.html', request.user.id)
+    context = {'title': request.user}
+    return render(request, 'users/show.html', context)
 
 
 @isLogged
-def edit(request):
-    context = {}
+def edit(request, id):
+    context = {'title': f'Editing {request.user}'}
     return render(request, 'users/edit.html', context)
-
-
-@isLogged
-def edit(request):
-    return render(request, 'users/edit.html')
