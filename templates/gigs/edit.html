@@ -42,22 +42,26 @@
 
             <div class="row">
                 <div class="mb-3 col-12">
-                    <label class="form-label" for="category">Gig Price</label>
-                    <select class="form-select" name="category" id="category" multiple required>
+                    <div class="form-check form-switch">
                         {% for category in categorys %}
-                        {% if category.id in gig.categorys %}
-                        <option value="{{ category.id }}" selected>{{ category }}</option>
+                        {% if category in gigCategorys %}
+                        <label class="form-check-label" for="category_{{ category.id }}">{{ category.name }}</label>
+                        <input class="form-check-input" value="{{ category.id }}" type="checkbox"
+                            id="category_{{ category.id }}" name="category" checked>
+                        <br>
                         {% else %}
-                        <option value="{{ category.id }}">{{ category }}</option>
+                        <label class="form-check-label" for="category_{{ category.id }}">{{ category.name }}</label>
+                        <input class="form-check-input" value="{{ category.id }}" type="checkbox"
+                            id="category_{{ category.id }}" name="category">
+                        <br>
                         {% endif %}
                         {% endfor %}
-                    </select>
+                    </div>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                 </div>
             </div>
-
 
             <button class="btn btn-primary">Submit</button>
 

@@ -39,5 +39,11 @@ def new(request):
 @login_required(login_url='/accounts/google/login/')
 def edit(request, id):
     gig = Gig.objects.get(id=id)
-    context = {'title': f'Editing {gig.name}', 'gig': gig}
+    Categorys = Category.objects.all()
+    gigCategorys = Category.objects.filter(gig=gig.id)
+    context = {
+        'title': f'Editing {gig.name}', 'gig': gig,
+        'categorys': Categorys, 'gigCategorys': gigCategorys
+    }
+    print(gigCategorys)
     return render(request, 'gigs/edit.html', context)

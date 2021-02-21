@@ -39,7 +39,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="mb-3 col-12">
                     <label class="form-label" for="category">category</label>
@@ -48,6 +47,22 @@
                         <option value="{{ category.id }}">{{ category }}</option>
                         {% endfor %}
                     </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col-12">
+                    <div class="form-check form-switch">
+                        {% for category in categorys %}
+                        <label class="form-check-label" for="category_{{ category.id }}">{{ category.name }}</label>
+                        <input class="form-check-input" value="{{ category.id }}" type="checkbox"
+                            id="category_{{ category.id }}" name="category">
+                        <br>
+                        {% endfor %}
+                    </div>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
