@@ -4,7 +4,7 @@
 <div class="col-6 offset-3">
 
     <div class="row">
-        <form action="{% url 'gigs:show' gig.id %}" class="needs-validation" method="POST" novalidate>
+        <form action="{% url 'gigs:edit' gig.id %}" class="needs-validation" method="POST" novalidate>
             {% csrf_token %}
 
             <h1 class="mb-4 col-md-6">Editing {{ gig.name }}</h1>
@@ -44,12 +44,16 @@
                 <div class="mb-3 col-12">
                     <label class="form-label" for="category">Gig Price</label>
                     <select class="form-select" name="category" id="category" multiple required>
-                        {% for category in categorys %}
-                        {% if category.id in gig.categorys %}
-                        <option value="{{ category.id }}" selected>{{ category }}</option>
-                        {% else %}
-                        <option value="{{ category.id }}">{{ category }}</option>
-                        {% endif %}
+                        {% comment %} {% for gig_cat in gig.category.all %} {% endcomment %}
+                            {% comment %} {% if category.id in gig.categorys %} {% endcomment %}
+                        {% comment %} {% endfor %} {% endcomment %}
+                        {% for cat in categories.all %}                                
+                            {% comment %} {% else %} {% endcomment %}
+                               <option value="{{ cat.id }}">
+                               {{ cat.name }}
+                               </option>
+                                {% comment %} <option>{{ cat.name }}</option> {% endcomment %}
+                            {% comment %} {% endif %} {% endcomment %}
                         {% endfor %}
                     </select>
                     <div class="valid-feedback">

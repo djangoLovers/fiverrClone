@@ -14,8 +14,11 @@
     </ul>
     <div class="card-body">
         <a href="#" class="card-link">Order</a>
-        {% if gig.user.id == user.id %}
-        <a href="#" class="card-link">Edit This Gig</a>
+        {% for cat in gig.category.all %}
+            <p>{{ cat.name }}</p>
+        {% endfor %}
+        {% if gig.user == request.user %}
+            <button><a href="{% url 'gigs:edit' gig.id %}" class="card-link">Edit This Gig</a></button>
         {% endif %}
     </div>
 </div>

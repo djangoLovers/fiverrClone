@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib import messages
 from .models import Gig, Category
 from .forms import GigForm
@@ -38,6 +38,20 @@ def new(request):
 
 @login_required(login_url='/accounts/google/login/')
 def edit(request, id):
-    gig = Gig.objects.get(id=id)
-    context = {'title': f'Editing {gig.name}', 'gig': gig}
+    gig = get_object_or_404(Gig, id=id)
+    categories = Category.objects.all()
+    form = GigForm(request.POST or None, instance=gig)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            gig = form.save(commit=False)
+            gig.user = request.user
+            gig.save()
+            messages.success(request, 'Gig Successfully Updated')
+            return redirect('gigs:show', gig.id)
+        else:
+            messages.error(request, 'Somthing Went Wrong...')
+
+
+    context = {'form': form , 'gig': gig, 'categories': categories}
     return render(request, 'gigs/edit.html', context)

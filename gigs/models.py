@@ -13,6 +13,7 @@ class Category(models.Model):
         return self.name
 
 
+
 class Gig(models.Model):
     user = models.ForeignKey(UserProfile, on_delete=CASCADE, blank=True)
     name = models.CharField(max_length=90)
@@ -20,6 +21,7 @@ class Gig(models.Model):
     description = models.CharField(max_length=90, null=True)
     dateCreated = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category)
+
 
     def __str__(self):
         return self.name
