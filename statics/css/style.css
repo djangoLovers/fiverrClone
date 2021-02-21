@@ -1,13 +1,13 @@
 a, a:hover{
   text-decoration: none;
-  color: white;
+  color: black;
 }
 
 #right-nav {
   margin-left: auto;
 }
 
-button.btn,button.btn:hover {
+a.card-link ,button.btn ,button.btn:hover {
   color: #ffffff;
 }
 
@@ -21,4 +21,18 @@ button.logout {
 
 a.logout {
     margin: 0 0 0 60px;
+}
+
+div.card.col-md-4{
+    margin: 20px 100px 40px 100px;
+}
+
+div.card.col-md-6{
+    margin: 20px 120px 40px 100px;
+}
+
+img{
+  border-radius: 6px;
+  max-width: 500px;
+  height: auto;
 }

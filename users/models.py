@@ -7,6 +7,7 @@ class UserProfile(AbstractUser):
     fullName = models.CharField(max_length=20)
     description = models.TextField(max_length=40, blank=True)
     biography = models.CharField(max_length=80, blank=True)
+    image = models.ImageField(null=True)
     dateCreated = models.DateTimeField(auto_now_add=True)
     country = CountryField(default="IR")
 

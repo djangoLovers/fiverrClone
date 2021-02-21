@@ -13,27 +13,28 @@ class Category(models.Model):
         return self.name
 
 
-
 class Gig(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=CASCADE, blank=True, related_name="gigs_user")
+    user = models.ForeignKey(
+        UserProfile, on_delete=CASCADE, blank=True, related_name="gigs_user")
     name = models.CharField(max_length=90)
     price = models.FloatField(null=True)
     description = models.CharField(max_length=90, null=True)
+    image = models.ImageField(null=True)
     dateCreated = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(Category, related_name="gigs_category")
 
-
     def get_absolute_url(self):
         return reverse("gigs:show", kwargs={"id": self.id})
-    
 
     def __str__(self):
         return self.name
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=CASCADE, related_name="comments_user")
-    gig = models.ForeignKey(Gig, on_delete=CASCADE, related_name="comments_gig")
+    user = models.ForeignKey(
+        UserProfile, on_delete=CASCADE, related_name="comments_user")
+    gig = models.ForeignKey(Gig, on_delete=CASCADE,
+                            related_name="comments_gig")
     body = models.CharField(max_length=255)
     rating = models.IntegerField()
     dateCreated = models.DateTimeField(auto_now_add=True)
@@ -43,7 +44,8 @@ class Comment(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=CASCADE, related_name="orders_user")
+    user = models.ForeignKey(
+        UserProfile, on_delete=CASCADE, related_name="orders_user")
     gig = models.ForeignKey(Gig, on_delete=CASCADE, related_name="orders_gig")
     dateCreated = models.DateTimeField(auto_now_add=True)
 

@@ -1,11 +1,22 @@
 {% extends 'partials/main.html' %}
 {% block content %}
 
-{% for gig in gigs %}
+<div class="row">
 
-<a href="{% url 'gigs:show' gig.id %}">{{ gig.name }}</a>
-<br>
+    {% for gig in gigs %}
 
-{% endfor %}
+    <div class="card col-md-4">
+        <img src="{{ gig.image.url }}" class="card-img-top" alt="Gig image">
+        <div class="card-body">
+            <h5 class="card-title">{{ gig.name }}</h5>
+            <p class="card-text text-muted">{{ gig.description }}</p>
+            <a href="{% url 'gigs:show' gig.id %}"><button class="btn btn-primary">${{ gig.price }}</button></a>
+            <br>
+        </div>
+    </div>
+
+    {% endfor %}
+
+</div>
 
 {% endblock %}

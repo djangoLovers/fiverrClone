@@ -1,7 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-
 from .forms import GigForm
 from .models import Category, Gig
 
@@ -14,25 +13,29 @@ def index(request):
 
 def show(request, id):
     gig = get_object_or_404(Gig, id=id)
+    gigCategories = Category.objects.filter(id=gig.id)
     if request.method == 'POST':
-        form = GigForm(request.POST or None, instance=gig)
-        if form.is_valid():
-            gig = form.save(commit=False)
-            gig.user = request.user
-            gig.save()
-            messages.success(request, 'Gig Successfully Updated')
+        if request.user.id == gig.user.id:
+            form = GigForm(request.POST, request.FILES, instance=gig)
+            if form.is_valid():
+                newForm = form.save(commit=False)
+                newForm.user = request.user
+                newForm.save()
+                messages.success(request, 'Gig Successfully Updated')
+            else:
+                messages.error(request, 'Somthing Went Wrong ...')
         else:
-            messages.error(request, 'Somthing Went Wrong...')
-    context = {'title': gig.name, 'gig': gig}
+            messages.error(request, "You Don't have The Permission to do that")
+    context = {'title': gig.name, 'gig': gig, 'gigCategories': gigCategories}
     return render(request, 'gigs/show.html', context)
 
 
 @login_required(login_url='/accounts/google/login/')
 def new(request):
-    categorys = Category.objects.all()
     form = GigForm()
+    categories = Category.objects.all()
     if request.method == 'POST':
-        form = GigForm(request.POST)
+        form = GigForm(request.POST, request.FILES)
         if form.is_valid():
             newForm = form.save(commit=False)
             newForm.user = request.user
@@ -41,17 +44,22 @@ def new(request):
             return redirect(newForm.get_absolute_url())
         else:
             messages.error(request, 'Somthing Went Wrong ..')
-    context = {'title': 'New Gig', 'form': form, 'categorys': categorys}
+    context = {'title': 'New Gig', 'categories': categories, 'form': form}
     return render(request, 'gigs/new.html', context)
 
 
 @login_required(login_url='/accounts/google/login/')
 def edit(request, id):
     gig = get_object_or_404(Gig, id=id)
-    categories = Category.objects.all()
-    gigCategorys = Category.objects.filter(gig=gig.id)
-    context = {
-        'title': f'Editing {gig.name}', 'gig': gig,
-        'categorys': categories, 'gigCategorys': gigCategorys
-    }
-    return render(request, 'gigs/edit.html', context)
+    if request.user.id == gig.user.id:
+        categories = Category.objects.all()
+        gigCategories = Category.objects.filter(id=gig.id)
+        form = GigForm(instance=gig)
+        context = {
+            'title': f'Editing {gig.name}', 'gig': gig,
+            'categorys': categories, 'gigCategories': gigCategories, 'form': form
+        }
+        return render(request, 'gigs/edit.html', context)
+    else:
+        messages.error(request, "You Don't have The Permission to do that")
+        return redirect('core:index')

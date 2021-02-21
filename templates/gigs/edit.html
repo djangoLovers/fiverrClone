@@ -4,7 +4,8 @@
 <div class="col-6 offset-3">
 
     <div class="row">
-        <form action="{% url 'gigs:edit' gig.id %}" class="needs-validation" method="POST" novalidate>
+        <form action="{% url 'gigs:show' gig.id %}" class="needs-validation" method="POST" enctype="multipart/form-data"
+            novalidate>
             {% csrf_token %}
 
             <h1 class="mb-4 col-md-6">Editing {{ gig.name }}</h1>
@@ -37,6 +38,13 @@
                     <div class="valid-feedback">
                         Looks good!
                     </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col-12">
+                    <label for="image" class="form-label">Update The Gig image</label>
+                    <input class="form-control" type="file" name="image" id="image" accept="image/*">
                 </div>
             </div>
 
