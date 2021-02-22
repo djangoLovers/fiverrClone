@@ -5,7 +5,8 @@
 <div class="col-6 offset-3">
 
     <div class=" row ">
-        <form action="{% url 'users:show' user.id %}" class="needs-validation" method="POST" novalidate>
+        <form action="{% url 'users:show' user.id %}" class="needs-validation" method="POST"
+            enctype="multipart/form-data" novalidate>
             {% csrf_token %}
 
             <div class="row">
@@ -50,6 +51,13 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="mb-3 col-12">
+                        <label for="image" class="form-label">Upload an image of Yourself</label>
+                        <input class="form-control" type="file" name="image" id="image" accept="image/*">
+                    </div>
+                </div>
+
                 <div class="mb-3 col-12">
                     <label for="country" class="form-label">Country</label>
                     {% get_countries as countries %}
@@ -66,7 +74,7 @@
 
             </div>
 
-            <button class="btn btn-info">Edit</button>
+            <button class="btn btn-info">Submit</button>
 
         </form>
     </div>

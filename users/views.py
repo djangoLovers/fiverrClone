@@ -11,7 +11,8 @@ def index(request):
 
 def show(request, id):
     if request.method == 'POST':
-        form = UserProfileForm(data=request.POST, instance=request.user)
+        form = UserProfileForm(
+            request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile Successfully Updated')

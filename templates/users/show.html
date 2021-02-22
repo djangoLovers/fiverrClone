@@ -2,7 +2,7 @@
 {% block content %}
 
 <div class="card">
-    <img src="..." class="card-img-top" alt="...">
+    <img src="{{ user.image.url }}" class="card-img-top" alt="User Image">
     <div class="card-body">
         <h5 class="card-title">{{ user }}</h5>
         <p class="card-text">{{ user.description }}</p>
