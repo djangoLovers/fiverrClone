@@ -7,6 +7,5 @@ urlpatterns = [
     path('<int:id>/', show, name='show'),
     path('new/', new, name='new'),
     path('<int:id>/edit/', edit, name='edit'),
-    path('<int:id>/order/', order, name='order'),
-    path('callback/', callback, name='callback')
+    path('<int:id>/order/', order, name='order')
 ]
