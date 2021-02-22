@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import get_user_model
-from gigs.models import Order
-from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
+from .models import UserProfile
 from .forms import UserProfileForm
 
 User = get_user_model()
@@ -13,21 +13,27 @@ def index(request):
 
 
 def show(request, id):
+    profile = get_object_or_404(UserProfile, id=id)
     if request.method == 'POST':
-        form = UserProfileForm(
-            request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Profile Successfully Updated')
+        if profile.id == request.user.id:
+            form = UserProfileForm(
+                request.POST, request.FILES, instance=request.user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Profile Successfully Updated')
+            else:
+                return render(request, 'users/edit.html', request.user.id)
         else:
-            return render(request, 'users/edit.html', request.user.id)
-    context = {'title': request.user}
+            messages.error(
+                request, "Sorry, you don't Have Permission to do that")
+    context = {'title': profile, 'profile': profile}
     return render(request, 'users/show.html', context)
 
 
 @login_required(login_url='/accounts/google/login/')
 def edit(request, id):
-    context = {'title': f'Editing {request.user}'}
+    profile = get_object_or_404(UserProfile, id=id)
+    context = {'title': f'Editing {profile}', 'profile': profile}
     return render(request, 'users/edit.html', context)
 
 

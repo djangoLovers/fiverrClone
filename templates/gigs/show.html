@@ -1,36 +1,93 @@
 {% extends 'partials/main.html' %}
+{% load method_override %}
 {% block content %}
 
-<div class="card">
-    <img src="{{ gig.image.url }}" class="card-img-top" alt="Gig image">
-    <div class="card-body">
-        <h5 class="card-title">{{ gig.name }}</h5>
-        <p class="card-text">{{ gig.description }}</p>
+<div class="row">
+    <div class="card col-md-5">
+        <img src="{{ gig.image.url }}" class="card-img-top" alt="Gig image">
+        <div class="card-body">
+            <h5 class="card-title">{{ gig.name }}</h5>
+            <p class="card-text">{{ gig.description }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><a href="{% url 'users:show' gig.user.id %}">Gig Owner</a></li>
+            <li class="list-group-item">Price : {{ gig.price }}</li>
+        </ul>
+        <div class="card-body">
+            <form action="{% url 'gigs:order' gig.id %}" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-success card-link">Order</button>
+            </form>
+            {% if gig.user == request.user %}
+            <a href="{% url 'gigs:edit' gig.id %}" class="card-link"><button class="btn btn-info">Edit This
+                    Gig</button></a>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            Category :
+            {% for category in gig.category.all %}
+            {% if lastCat == category %}
+            </span>{{ category.name }}</span>
+            {% else %}
+            </span>{{ category.name }}, </span>
+            {% endif %}
+            {% endfor %}
+        </div>
     </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item"><a href="{% url 'users:show' gig.user.id %}">Gig Owner</a></li>
-        <li class="list-group-item">Price : {{ gig.price }}</li>
-    </ul>
-    <div class="card-body">
-        <form action="{% url 'gigs:order' gig.id %}" method="POST">
+    <div class="col-md-6 mt-4" style="margin-left: 90px;">
+        <form action="{% url 'gigs:comment' gig.id %}" class="needs-validation" method="POST" novalidate>
             {% csrf_token %}
-            <button class="btn btn-success card-link">Order</button>
+            <label class="form-label" for="comment" style="font-size: 35px;">Draw a Comment !</label>
+            <fieldset class="starability-basic">
+                <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="1" checked
+                    aria-label="No rating." />
+                <input type="radio" id="first-rate1" name="rating" value="1" />
+                <label for="first-rate1" title="Terrible">1 star</label>
+                <input type="radio" id="first-rate2" name="rating" value="2" />
+                <label for="first-rate2" title="Not good">2 stars</label>
+                <input type="radio" id="first-rate3" name="rating" value="3" />
+                <label for="first-rate3" title="Average">3 stars</label>
+                <input type="radio" id="first-rate4" name="rating" value="4" />
+                <label for="first-rate4" title="Very good">4 stars</label>
+                <input type="radio" id="first-rate5" name="rating" value="5" />
+                <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+
+            <textarea class="form-control" name="body" id="comment" cols="30" rows="5" required></textarea>
+
+            <button class="mt-2 mb-4 btn btn-primary">Submit</button>
         </form>
-        {% if gig.user == request.user %}
-        <a href="{% url 'gigs:edit' gig.id %}" class="card-link"><button class="btn btn-info">Edit This
-                Gig</button></a>
-        {% endif %}
-    </div>
-    <div class="card-body">
-        Category :
-        {% for category in gig.category.all %}
-        {% if lastCat == category %}
-        </span>{{ category.name }}</span>
-        {% else %}
-        </span>{{ category.name }}, </span>
-        {% endif %}
-        {% endfor %}
     </div>
 </div>
+
+
+{% for comment in gig.comments_gig.all %}
+<div class="row mt-3">
+    <div class="card ml-auto col-12 mb-3">
+        <div class="card-body">
+            <h5 class="card-title starability-result mb-3" data-rating="{{ comment.rating }}">
+                Rated : {{ comment.rating }} stars
+            </h5>
+            <p class="card-text">
+                {{ comment.body }}
+            </p>
+            <h6 class="card-subtitle text-muted mb-2">
+                <a href="{% url 'users:show' comment.user.id %}">- {{ comment.user }}</a>
+            </h6>
+            {% if user == comment.user %}
+            <form action="{% url 'gigs:comment' gig.id %}" method="POST">
+                {% csrf_token %}
+                <input type="number" name="id" value="{{ comment.id }}" hidden>
+                {% method_override 'DELETE' %}
+                <button class="btn btn-sm btn-danger">
+                    Delete
+                </button>
+            </form>
+
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}
 
 {% endblock %}

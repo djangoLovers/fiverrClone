@@ -1,13 +1,9 @@
 import requests
 from django.contrib import messages
-from django.views.generic.base import View
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
-
-from .forms import GigForm
-from .models import Category, Gig, Order
-
-# Payment Imports
+from .forms import GigForm, CommentForm
+from .models import Category, Comment, Gig, Order
 
 
 def index(request):
@@ -71,13 +67,38 @@ def edit(request, id):
 
 
 @login_required(login_url='/accounts/google/login/')
+def comment(request, id):
+    gig = get_object_or_404(Gig, id=id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            newForm = form.save(commit=False)
+            newForm.gig = gig
+            newForm.user = request.user
+            newForm.save()
+            messages.success(request, 'Thanks For Your Review !')
+        else:
+            messages.error(request, 'Somhting Went Wrong, Try Again !')
+    if request.method == 'DELETE':
+        commentId = request.DELETE.get('id')
+        comment = get_object_or_404(Comment, id=commentId)
+        if comment.user == request.user:
+            comment.delete()
+            messages.success(request, 'Comment Successfuly Deleted !')
+        else:
+            messages.error(
+                request, "Sorry, you don't Have Permission to do that")
+    return redirect('gigs:show', id)
+
+
+@login_required(login_url='/accounts/google/login/')
 def order(request, id):
     gig = get_object_or_404(Gig, id=id)
     
 
     if request.method == 'POST':
         data = {
-            "merchant_id": "1344b5d4-0048-11e8-94db-005056a205be",
+            "merchant_id": '1344b5d4-0048-11e8-94db-005056a205be',
             "amount": round(gig.price) * 24000,
             "callback_url": f"http://127.0.0.1:8000/gigs/{gig.id}/order",
             "description": f"Buying '{gig.name}' Gig"}
