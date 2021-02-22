@@ -13,7 +13,7 @@ def index(request):
 def show(request, id):
     profile = get_object_or_404(UserProfile, id=id)
     if request.method == 'POST':
-        if profile.id == request.id:
+        if profile.id == request.user.id:
             form = UserProfileForm(
                 request.POST, request.FILES, instance=request.user)
             if form.is_valid():
@@ -30,5 +30,6 @@ def show(request, id):
 
 @login_required(login_url='/accounts/google/login/')
 def edit(request, id):
-    context = {'title': f'Editing {request.user}'}
+    profile = get_object_or_404(UserProfile, id=id)
+    context = {'title': f'Editing {profile}', 'profile': profile}
     return render(request, 'users/edit.html', context)
