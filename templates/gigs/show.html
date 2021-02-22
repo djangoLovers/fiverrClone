@@ -12,7 +12,7 @@
         <li class="list-group-item">Price : {{ gig.price }}</li>
     </ul>
     <div class="card-body">
-        <form action="{% url 'gigs:payment' gig.id %}" method="POST">
+        <form action="{% url 'gigs:payment' gig.id%}" method="POST">
             {% csrf_token %}
             <button class="card-link btn btn-primary">Order</button>
         </form>

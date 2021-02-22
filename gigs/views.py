@@ -83,7 +83,11 @@ def edit(request, id):
 # Payment Shits
 
 
+API_KEY = environ.get('PAYMENT_API_KEY')
+
+
 class PaymentView(View):
+    template_name = 'gigs/payment.html'
     messages = {
         "invalid_amount": {
             "level": messages.ERROR,
@@ -95,7 +99,11 @@ class PaymentView(View):
         },
     }
 
+    def get(self, request):
+        return render(request, self.template_name, {})
+
     def post(self, request, id):
+
         gig = get_object_or_404(Gig, id=id)
         amount = round(gig.price)
         order_id = random.random()
@@ -103,11 +111,10 @@ class PaymentView(View):
         if amount:
             client = Client('https://api.nextpay.org/gateway/token.wsdl')
             result = client.service.TokenGenerator(
-                environ.get('PAYMENT_API_KEY'),
+                API_KEY,
                 order_id,
                 amount,
-                request.build_absolute_uri(
-                    redirect('gigs:payment_callback')),
+                request.build_absolute_uri(reverse('gigs:payment_callback')),
             )
 
             if result.code != -1:
@@ -126,7 +133,7 @@ class PaymentView(View):
                 self.messages["invalid_amount"]["text"]
             )
 
-        return redirect('gigs:show', gig.id)
+        return redirect(self.get_fail_url())
 
     def get_fail_url(self):
         return str(reverse_lazy('payment'))
@@ -146,15 +153,16 @@ class PaymentCallbackView(View):
         return render(request, self.template_name, {})
 
     def post(self, request):
+
         trans_id = request.POST.get('trans_id')
         order_id = request.POST.get('order_id')
 
-        amount = 20000
+        amount = 2000
 
         if trans_id and order_id and amount:
             client = Client('https://api.nextpay.org/gateway/verify.wsdl')
             result = client.service.PaymentVerification(
-                environ.get('PAYMENT_API_KEY'),
+                API_KEY,
                 order_id,
                 amount,
                 trans_id,
@@ -167,7 +175,7 @@ class PaymentCallbackView(View):
             })
 
         else:
-            return redirect('gigs:index')
+            return HttpResponseBadRequest()
 
 
-#####################################################
+# """

@@ -9,7 +9,7 @@ urlpatterns = [
     path('<int:id>/edit/', edit, name='edit'),
 
 
-    path(r'<int:id>/order/^$', PaymentView.as_view(), name='payment'),
+    path('<int:id>/payment/', PaymentView.as_view(), name='payment'),
     path('callback/',
          PaymentCallbackView.as_view(), name='payment_callback'),
 ]
