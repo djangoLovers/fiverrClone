@@ -2,7 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from .models import UserProfile
+from gigs.models import Order
+
 from .forms import UserProfileForm
 
 User = get_user_model()
@@ -13,7 +14,7 @@ def index(request):
 
 
 def show(request, id):
-    profile = get_object_or_404(UserProfile, id=id)
+    profile = get_object_or_404(User, id=id)
     if request.method == 'POST':
         if profile.id == request.user.id:
             form = UserProfileForm(
@@ -32,7 +33,7 @@ def show(request, id):
 
 @login_required(login_url='/accounts/google/login/')
 def edit(request, id):
-    profile = get_object_or_404(UserProfile, id=id)
+    profile = get_object_or_404(User, id=id)
     context = {'title': f'Editing {profile}', 'profile': profile}
     return render(request, 'users/edit.html', context)
 
