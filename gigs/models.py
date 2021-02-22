@@ -48,6 +48,7 @@ class Order(models.Model):
     user = models.ForeignKey(
         UserProfile, on_delete=CASCADE, related_name="orders_user")
     gig = models.ForeignKey(Gig, on_delete=CASCADE, related_name="orders_gig")
+    ordered = models.BooleanField(default=False)
     dateCreated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
