@@ -2,20 +2,20 @@
 {% block content %}
 
 <div class="card">
-    <img src="{{ user.image.url }}" class="card-img-top" alt="User Image">
+    <img src="{{ profile.image.url }}" class="card-img-top" alt="User Image">
     <div class="card-body">
-        <h5 class="card-title">{{ user }}</h5>
-        <p class="card-text">{{ user.description }}</p>
+        <h5 class="card-title">{{ profile }}</h5>
+        <p class="card-text">{{ profile.description }}</p>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">{{ user.fullName }}</li>
-        <li class="list-group-item">Joined Since {{ user.dateCreated }}</li>
-        <li class="list-group-item">From {{ user.country }}</li>
-        <li class="list-group-item">Biography : {{ user.biography }}</li>
+        <li class="list-group-item">{{ profile.fullName }}</li>
+        <li class="list-group-item">Joined Since {{ profile.dateCreated }}</li>
+        <li class="list-group-item">From {{ profile.country }}</li>
+        <li class="list-group-item">Biography : {{ profile.biography }}</li>
     </ul>
     <div class="card-body">
         <button class="btn btn-primary"><a href="" class="card-link">Gigs</a></button>
-        <a href="{% url 'users:edit' request.user.id %}" class="card-link"><button class="btn btn-info">Edit
+        <a href="{% url 'users:edit' profile.id %}" class="card-link"><button class="btn btn-info">Edit
                 Profile</button></a>
     </div>
 </div>

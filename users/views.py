@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.contrib import messages
+from .models import UserProfile
 from .forms import UserProfileForm
 
 
@@ -10,15 +11,20 @@ def index(request):
 
 
 def show(request, id):
+    profile = get_object_or_404(UserProfile, id=id)
     if request.method == 'POST':
-        form = UserProfileForm(
-            request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Profile Successfully Updated')
+        if profile.id == request.id:
+            form = UserProfileForm(
+                request.POST, request.FILES, instance=request.user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Profile Successfully Updated')
+            else:
+                return render(request, 'users/edit.html', request.user.id)
         else:
-            return render(request, 'users/edit.html', request.user.id)
-    context = {'title': request.user}
+            messages.error(
+                request, "Sorry, you don't Have Permission to do that")
+    context = {'title': profile, 'profile': profile}
     return render(request, 'users/show.html', context)
 
 
