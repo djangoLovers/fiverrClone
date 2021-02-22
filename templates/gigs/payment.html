@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+</head>
+<body>
+    {% if messages %}
+        <div style="text-align: center">
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <div style="text-align: center">
+        <h4>PLease enter amount </h4>
+        <form action="{% url "payment" %}" method="post">
+             {% csrf_token %}
+            <input type="text" name="amount" placeholder="Amount">
+            <input type="submit" value="Pay">
+        </form>
+    </div>
+</body>
+</html>
