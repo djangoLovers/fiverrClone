@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, show, new, edit, PaymentView, PaymentCallbackView
+from .views import callback, index, show, new, edit, order
 
 
 urlpatterns = [
@@ -7,7 +7,6 @@ urlpatterns = [
     path('<int:id>/', show, name='show'),
     path('new/', new, name='new'),
     path('<int:id>/edit/', edit, name='edit'),
-    path('<int:id>/payment/', PaymentView.as_view(), name='payment'),
-    path('payment/callback/',
-         PaymentCallbackView.as_view(), name='payment_callback'),
+    path('<int:id>/order/', order, name='order'),
+    path('callback/', callback, name='callback')
 ]
