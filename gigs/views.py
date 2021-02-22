@@ -13,7 +13,7 @@ def index(request):
 
 def show(request, id):
     gig = get_object_or_404(Gig, id=id)
-    gigCategories = Category.objects.filter(id=gig.id)
+    gigCategories = gig.category.all()
     if request.method == 'POST':
         if request.user.id == gig.user.id:
             form = GigForm(request.POST, request.FILES, instance=gig)
@@ -21,6 +21,7 @@ def show(request, id):
                 newForm = form.save(commit=False)
                 newForm.user = request.user
                 newForm.save()
+                form.save_m2m()
                 messages.success(request, 'Gig Successfully Updated')
             else:
                 messages.error(request, 'Somthing Went Wrong ...')
@@ -40,6 +41,7 @@ def new(request):
             newForm = form.save(commit=False)
             newForm.user = request.user
             newForm.save()
+            form.save_m2m()
             messages.success(request, 'Gig Successfully Created')
             return redirect(newForm.get_absolute_url())
         else:
@@ -53,11 +55,11 @@ def edit(request, id):
     gig = get_object_or_404(Gig, id=id)
     if request.user.id == gig.user.id:
         categories = Category.objects.all()
-        gigCategories = Category.objects.filter(id=gig.id)
+        gigCategories = gig.category.all()
         form = GigForm(instance=gig)
         context = {
             'title': f'Editing {gig.name}', 'gig': gig,
-            'categorys': categories, 'gigCategories': gigCategories, 'form': form
+            'categories': categories, 'gigCategories': gigCategories, 'form': form
         }
         return render(request, 'gigs/edit.html', context)
     else:
