@@ -68,6 +68,7 @@ def edit(request, id):
         return redirect('core:index')
 
 
+@login_required(login_url='/accounts/google/login/')
 def order(request, id):
     gig = get_object_or_404(Gig, id=id)
     data = {
@@ -85,4 +86,8 @@ def order(request, id):
 
 def callback(request):
     status = request.GET.get('Status')
-    return render(request, 'gigs/callback.html')
+    print(status)
+    authority = request.GET.get('Authority')
+    context = {'title': 'Payment Callback',
+               'status': status, 'authority': authority}
+    return render(request, 'gigs/callback.html', context)

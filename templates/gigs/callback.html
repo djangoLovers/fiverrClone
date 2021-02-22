@@ -2,14 +2,14 @@
 {% block content %}
 
 <div style="text-align: center">
-  <!--   {% if result_code == 0 %}
+  {% if status == 'NOK' %}
   <h2>Success Payment</h2>
+  <p>Your Payment Was Successful ! You Can See Your Orders in 'My Profile'</p>
   {% else %}
   <h2>Fail Payment</h2>
+  <p>Your Payment Was Failed ! Please try again ..</p>
   {% endif %}
-  <p>Your Payment Was Faild ! Please Try Again</p>
-  <p>Transaction ID : {{ trans_id }}</p> -->
-
+  <p>Transaction ID : {{ authority }}</p>
 </div>
 
 {% endblock %}
