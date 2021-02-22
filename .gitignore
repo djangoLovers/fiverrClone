@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 #static files
-static/
+statics/images/*
 
 
 # Distribution / packaging
