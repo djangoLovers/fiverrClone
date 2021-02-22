@@ -54,11 +54,9 @@ def edit(request, id):
     gig = get_object_or_404(Gig, id=id)
     if request.user.id == gig.user.id:
         categories = Category.objects.all()
-        gigCategories = gig.category.all()
-        form = GigForm(instance=gig)
         context = {
-            'title': f'Editing {gig.name}', 'gig': gig,
-            'categories': categories, 'gigCategories': gigCategories, 'form': form
+            'title': f'Editing {gig.name}',
+            'gig': gig, 'categories': categories
         }
         return render(request, 'gigs/edit.html', context)
     else:
