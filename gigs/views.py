@@ -26,7 +26,8 @@ def show(request, id):
                 messages.error(request, 'Somthing Went Wrong ...')
         else:
             messages.error(request, "You Don't have The Permission to do that")
-    context = {'title': gig.name, 'gig': gig}
+    lastCat = gig.category.all().last()
+    context = {'title': gig.name, 'gig': gig, 'lastCat': lastCat}
     return render(request, 'gigs/show.html', context)
 
 

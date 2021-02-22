@@ -20,7 +20,11 @@
     <div class="card-body">
         Category :
         {% for category in gig.category.all %}
-        </span>{{ category.name }} </span>
+        {% if lastCat == category %}
+        </span>{{ category.name }}</span>
+        {% else %}
+        </span>{{ category.name }}, </span>
+        {% endif %}
         {% endfor %}
     </div>
 </div>
