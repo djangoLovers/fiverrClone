@@ -13,7 +13,6 @@ def index(request):
 
 def show(request, id):
     gig = get_object_or_404(Gig, id=id)
-    gigCategories = Category.objects.filter(id=gig.id)
     if request.method == 'POST':
         if request.user.id == gig.user.id:
             form = GigForm(request.POST, request.FILES, instance=gig)
@@ -26,7 +25,7 @@ def show(request, id):
                 messages.error(request, 'Somthing Went Wrong ...')
         else:
             messages.error(request, "You Don't have The Permission to do that")
-    context = {'title': gig.name, 'gig': gig, 'gigCategories': gigCategories}
+    context = {'title': gig.name, 'gig': gig, } 
     return render(request, 'gigs/show.html', context)
 
 
