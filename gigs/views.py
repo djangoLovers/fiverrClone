@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import GigForm
-from .models import Category, Gig
+from .models import Category, Gig, Order
 
 # Payment Imports
 
@@ -73,6 +73,7 @@ def edit(request, id):
 @login_required(login_url='/accounts/google/login/')
 def order(request, id):
     gig = get_object_or_404(Gig, id=id)
+    
 
     if request.method == 'POST':
         data = {
@@ -82,13 +83,19 @@ def order(request, id):
             "description": f"Buying '{gig.name}' Gig"}
 
         url = "https://api.zarinpal.com/pg/v4/payment/request.json"
-
         response = requests.post(url, data)
         authority = response.json()['data']['authority']
+
+        o = Order(user=request.user, gig=gig, ordered=True)
+        o.save()
         return redirect(f'https://www.zarinpal.com/pg/StartPay/{authority}')
 
     status = request.GET.get('Status')
     authority = request.GET.get('Authority')
     context = {'title': 'Payment Callback',
                'status': status, 'authority': authority}
+
+    
+    
+
     return render(request, 'gigs/callback.html', context)
