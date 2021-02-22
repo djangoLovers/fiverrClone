@@ -7,7 +7,6 @@ from .models import Category, Gig
 
 # Payment Imports
 
-###############################
 import random
 from os import environ
 from django.urls import reverse, reverse_lazy
@@ -16,7 +15,6 @@ from django.http import HttpResponseBadRequest, HttpResponseForbidden
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from zeep import Client
-###############################
 
 
 def index(request):
@@ -78,12 +76,7 @@ def edit(request, id):
         messages.error(request, "You Don't have The Permission to do that")
         return redirect('core:index')
 
-#####################################################
-
 # Payment Shits
-
-
-API_KEY = environ.get('PAYMENT_API_KEY')
 
 
 class PaymentView(View):
@@ -99,9 +92,6 @@ class PaymentView(View):
         },
     }
 
-    def get(self, request):
-        return render(request, self.template_name, {})
-
     def post(self, request, id):
 
         gig = get_object_or_404(Gig, id=id)
@@ -111,7 +101,7 @@ class PaymentView(View):
         if amount:
             client = Client('https://api.nextpay.org/gateway/token.wsdl')
             result = client.service.TokenGenerator(
-                API_KEY,
+                environ.get('PAYMENT_API_KEY'),
                 order_id,
                 amount,
                 request.build_absolute_uri(reverse('gigs:payment_callback')),
@@ -136,10 +126,10 @@ class PaymentView(View):
         return redirect(self.get_fail_url())
 
     def get_fail_url(self):
-        return str(reverse_lazy('payment'))
+        return str(reverse_lazy('gigs:payment'))
 
     def get_success_url(self):
-        return str(reverse_lazy('payment'))
+        return str(reverse_lazy('gigs:payment'))
 
 
 class PaymentCallbackView(View):
@@ -148,9 +138,6 @@ class PaymentCallbackView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super(PaymentCallbackView, self).dispatch(request, *args, **kwargs)
-
-    def get(self, request):
-        return render(request, self.template_name, {})
 
     def post(self, request):
 
@@ -162,13 +149,12 @@ class PaymentCallbackView(View):
         if trans_id and order_id and amount:
             client = Client('https://api.nextpay.org/gateway/verify.wsdl')
             result = client.service.PaymentVerification(
-                API_KEY,
+                environ.get('PAYMENT_API_KEY'),
                 order_id,
                 amount,
                 trans_id,
             )
 
-            # if result == 0 then success payment
             return render(request, self.template_name, {
                 'result_code': result,
                 'trans_id': trans_id

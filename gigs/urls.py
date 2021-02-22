@@ -7,9 +7,7 @@ urlpatterns = [
     path('<int:id>/', show, name='show'),
     path('new/', new, name='new'),
     path('<int:id>/edit/', edit, name='edit'),
-
-
     path('<int:id>/payment/', PaymentView.as_view(), name='payment'),
-    path('callback/',
+    path('payment/callback/',
          PaymentCallbackView.as_view(), name='payment_callback'),
 ]
