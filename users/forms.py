@@ -7,4 +7,4 @@ class UserProfileForm(ModelForm):
         model = UserProfile
         fields = [
             'first_name', 'last_name',
-            'description', 'biography', 'country']
+            'description', 'biography', 'country', 'image']
