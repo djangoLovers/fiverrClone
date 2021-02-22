@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.views.generic.base import View
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+
 from .forms import GigForm
 from .models import Category, Gig
 
@@ -72,23 +73,23 @@ def edit(request, id):
 @login_required(login_url='/accounts/google/login/')
 def order(request, id):
     gig = get_object_or_404(Gig, id=id)
-    data = {
-        "merchant_id": "1344b5d4-0048-11e8-94db-005056a205be",
-        "amount": round(gig.price) * 24000,
-        "callback_url": "http://127.0.0.1:8000/gigs/callback",
-        "description": "افزایش اعتبار کاربر شماره ۱۱۳۴۶۲۹",
-    }
-    url = "https://api.zarinpal.com/pg/v4/payment/request.json"
 
-    response = requests.post(url, data)
-    authority = response.json()['data']['authority']
-    return redirect(f'https://www.zarinpal.com/pg/StartPay/{authority}')
+    if request.method == 'GET':
+        status = request.GET.get('Status')
+        authority = request.GET.get('Authority')
+        context = {'title': 'Payment Callback',
+                   'status': status, 'authority': authority}
+        return render(request, 'gigs/callback.html', context)
 
+    if request.method == 'POST':
+        data = {
+            "merchant_id": "1344b5d4-0048-11e8-94db-005056a205be",
+            "amount": round(gig.price) * 24000,
+            "callback_url": f"http://127.0.0.1:8000/gigs/{gig.id}/order",
+            "description": f"Buying '{gig.name}' Gig"
+        }
+        url = "https://api.zarinpal.com/pg/v4/payment/request.json"
 
-def callback(request):
-    status = request.GET.get('Status')
-    print(status)
-    authority = request.GET.get('Authority')
-    context = {'title': 'Payment Callback',
-               'status': status, 'authority': authority}
-    return render(request, 'gigs/callback.html', context)
+        response = requests.post(url, data)
+        authority = response.json()['data']['authority']
+        return redirect(f'https://www.zarinpal.com/pg/StartPay/{authority}')
