@@ -69,12 +69,13 @@ def edit(request, id):
         return redirect('core:index')
 
 
+@login_required(login_url='/accounts/google/login/')
 def order(request, id):
     gig = get_object_or_404(Gig, id=id)
     data = {
         "merchant_id": "1344b5d4-0048-11e8-94db-005056a205be",
         "amount": round(gig.price) * 24000,
-        "callback_url": "http://localhost:8000/gigs/callback",
+        "callback_url": "http://127.0.0.1:8000/gigs/callback",
         "description": "افزایش اعتبار کاربر شماره ۱۱۳۴۶۲۹",
     }
     url = "https://api.zarinpal.com/pg/v4/payment/request.json"
@@ -86,4 +87,8 @@ def order(request, id):
 
 def callback(request):
     status = request.GET.get('Status')
-    return render(request, 'gigs/callback.html')
+    print(status)
+    authority = request.GET.get('Authority')
+    context = {'title': 'Payment Callback',
+               'status': status, 'authority': authority}
+    return render(request, 'gigs/callback.html', context)
