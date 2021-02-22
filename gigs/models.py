@@ -21,7 +21,8 @@ class Gig(models.Model):
     description = models.CharField(max_length=90, null=True)
     image = models.ImageField(null=True)
     dateCreated = models.DateTimeField(auto_now_add=True)
-    category = models.ManyToManyField(Category, related_name="gigs_category")
+    category = models.ManyToManyField(
+        Category, blank=True, related_name="gigs_category")
 
     def get_absolute_url(self):
         return reverse("gigs:show", kwargs={"id": self.id})

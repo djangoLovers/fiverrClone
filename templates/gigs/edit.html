@@ -51,8 +51,8 @@
             <div class="row">
                 <div class="mb-3 col-12">
                     <div class="form-check form-switch">
-                        {% for category in categorys %}
-                        {% if category in gigCategorys %}
+                        {% for category in categories %}
+                        {% if category in gig.category.all %}
                         <label class="form-check-label" for="category_{{ category.id }}">{{ category.name }}</label>
                         <input class="form-check-input" value="{{ category.id }}" type="checkbox"
                             id="category_{{ category.id }}" name="category" checked>

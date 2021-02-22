@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Gig, Category
+from .models import Gig
 
 
 class GigForm(ModelForm):
