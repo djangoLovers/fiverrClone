@@ -162,6 +162,3 @@ class PaymentCallbackView(View):
 
         else:
             return HttpResponseBadRequest()
-
-
-# """
