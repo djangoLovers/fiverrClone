@@ -11,5 +11,5 @@ urlpatterns = [
     path('<int:id>/order/', order, name='order'),
     path('callback/', callback, name='callback'),
     path('result/', result, name='result'),
-    path('search', search, name="search")
+    path('search/', search, name="search")
 ]
