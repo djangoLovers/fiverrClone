@@ -1,0 +1,27 @@
+{% extends 'partials/main.html' %}
+{% block content %}
+
+
+<table class="table">
+    <thead>
+        <th scope="col">ID</th>
+        <th scope="col">Gig</th>
+        <th scope="col">Customer</th>
+        <th scope="col">Order Date</th>
+    </thead>
+    <tbody>
+
+        <tr>
+            {% for sell in sales %}
+            <th scope="row">{{ sell.id }}</th>
+            <td><a href="{% url 'gigs:show' sell.gig.id %}">{{ sell.gig.name }}</a></td>
+            <td><a href="{% url 'users:show' sell.user.id %}">{{ sell.user }}</a></td>
+            <td>{{ sell.dateCreated }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endblock %}

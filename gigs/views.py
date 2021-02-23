@@ -78,7 +78,8 @@ def edit(request, id):
 def comment(request, id):
     gig = get_object_or_404(Gig, id=id)
     if request.method == 'POST':
-        orderedCheck = Order.objects.filter(user=request.user, gig=gig).exists()
+        orderedCheck = Order.objects.filter(
+            user=request.user, gig=gig).exists()
 
         if orderedCheck:
             form = CommentForm(request.POST)
