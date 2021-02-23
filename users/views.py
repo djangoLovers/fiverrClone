@@ -43,6 +43,17 @@ def edit(request, id):
 def sales(request, id):
     profile = get_object_or_404(User, id=id)
     if request.user == profile:
+        if request.method == 'POST':
+            orderId = request.POST.get('order')
+            order = get_object_or_404(Order, id=orderId)
+            if order.gig.user == profile:
+                order.delivered = request.POST.get('delivered')
+                order.save()
+            else:
+                messages.error(
+                    request, "Sorry, You don't Have Perrmission to do that")
+                return redirect('users:sales', profile.id)
+
         sales = Order.objects.filter(gig__user=id, ordered=True)
         print(sales)
         context = {'title': 'My Selles', 'sales': sales}

@@ -9,6 +9,7 @@
         <th scope="col">Customer</th>
         <th scope="col">Status</th>
         <th scope="col">Order Date</th>
+        <th scope="col"></th>
     </thead>
     <tbody>
 
@@ -18,12 +19,24 @@
             <th scope="row">{{ sell.id }}</th>
             <td><a href="{% url 'gigs:show' sell.gig.id %}">{{ sell.gig.name }}</a></td>
             <td><a href="{% url 'users:show' sell.user.id %}">{{ sell.user }}</a></td>
-            {% if sell.delivered == True %}
-            <td>Delivered</td>
-            {% else %}
-            <td>Pending</td>
-            {% endif %}
-            <td>{{ sell.dateCreated }}</td>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="number" name="order" value="{{ sell.id }}" hidden>
+                <td>
+                    <select class="form-select" name="delivered">
+                        {% if sell.delivered == True %}
+                        <option value="True" selected>Delivered</option>
+                        <option value="False">Pending</option>
+                        {% else %}
+                        <option value="True">Delivered</option>
+                        <option value="False" selected>Pending</option>
+                        {% endif %}
+                    </select>
+                </td>
+                <td>{{ sell.dateCreated }}</td>
+                <td><button class="btn btn-info btn-sm">Update</button></td>
+            </form>
+
         </tr>
         {% endif %}
         {% endfor %}
