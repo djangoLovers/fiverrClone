@@ -3,7 +3,7 @@ from gigs.models import Gig
 
 
 def index(request):
-    mostPopulerGigs = Gig.objects.all().order_by('-orderedTime')[:3]
+    mostPopulerGigs = Gig.objects.all().order_by('-quantity')[:3]
     newestGigs = Gig.objects.all().order_by('-id')[:3]
     context = {
         'title': 'Fiverr Clone',

@@ -132,7 +132,7 @@ def order(request, id):
             "https://api.zarinpal.com/pg/v4/payment/request.json", data)
         authority = response.json()['data']['authority']
 
-        o = Order(user=request.user, gig=gig, ordered=False, delivered=True)
+        o = Order(user=request.user, gig=gig, ordered=False, delivered=False)
         o.save()
 
         return redirect(f'https://www.zarinpal.com/pg/StartPay/{authority}')
@@ -156,7 +156,7 @@ def callback(request):
             'https://api.zarinpal.com/pg/v4/payment/verify.json', data)
 
         order.ordered = True
-        order.gig.orderedTime += 1
+        order.gig.quantity += 1
         order.save()
 
     request.session['status'] = status

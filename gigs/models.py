@@ -41,7 +41,7 @@ class Gig(models.Model):
     name = models.CharField(max_length=90)
     price = models.FloatField(null=True)
     description = models.CharField(max_length=90, null=True)
-    orderedTime = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=0)
     image = models.ImageField(null=True)
     dateCreated = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(
