@@ -11,7 +11,7 @@ def search(request):
     count = 0
     if query is not None:
         gigs_result = Gig.objects.search(query)
-        count = len(gigs_result)
+        count = gigs_result.count()
     return render(request, 'gigs/search.html',
     {'results': gigs_result, 'count':count, 'query': query})
 
