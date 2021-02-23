@@ -35,8 +35,7 @@
         </div>
     </div>
 
-    {% for order in user.orders_user.all %}
-    {% if gig.id == order.gig.id %}
+    {% if ordered == True %}
 
     <div class="col-md-6 mt-4" style="margin-left: 90px;">
         <form action="{% url 'gigs:comment' gig.id %}" class="needs-validation" method="POST" novalidate>
@@ -64,7 +63,6 @@
     </div>
 
     {% endif %}
-    {% endfor %}
 </div>
 
 

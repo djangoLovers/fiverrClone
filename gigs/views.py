@@ -14,6 +14,13 @@ def index(request):
 
 def show(request, id):
     gig = get_object_or_404(Gig, id=id)
+    orderedCheck = Order.objects.filter(
+        user=request.user.id, gig=gig, ordered=True)
+    if len(orderedCheck):
+        res = True
+    else:
+        res = False
+
     if request.method == 'POST':
         if request.user.id == gig.user.id:
             form = GigForm(request.POST, request.FILES, instance=gig)
@@ -28,7 +35,8 @@ def show(request, id):
         else:
             messages.error(request, "You Don't have The Permission to do that")
     lastCat = gig.category.all().last()
-    context = {'title': gig.name, 'gig': gig, 'lastCat': lastCat}
+    context = {'title': gig.name, 'gig': gig,
+               'lastCat': lastCat, 'ordered': res}
     return render(request, 'gigs/show.html', context)
 
 
@@ -97,23 +105,34 @@ def comment(request, id):
 
 @login_required(login_url='/accounts/google/login/')
 def order(request, id):
-    gig = get_object_or_404(Gig, id=id)
-    merchant_id = '1344b5d4-0048-11e8-94db-005056a205be'
-    amount = round(gig.price) * 24000
 
     if request.method == 'POST':
+        gig = get_object_or_404(Gig, id=id)
+        merchant_id = '1344b5d4-0048-11e8-94db-005056a205be'
+        amount = round(gig.price) * 24000
         data = {
             "merchant_id": merchant_id,
             "amount": amount,
-            "callback_url": f"http://127.0.0.1:8000/gigs/{gig.id}/order",
-            "description": f"Buying '{gig.name}' Gig"}
+            "callback_url": 'http://127.0.0.1:8000/gigs/callback',
+            "description": f"Buying '{gig.name}' Gig"
+        }
 
         response = requests.post(
             "https://api.zarinpal.com/pg/v4/payment/request.json", data)
         authority = response.json()['data']['authority']
 
-        return redirect(f'https://www.zarinpal.com/pg/StartPay/{authority}')
+        o = Order(user=request.user, gig=gig, ordered=False)
+        o.save()
 
+        return redirect(f'https://www.zarinpal.com/pg/StartPay/{authority}')
+    else:
+        return redirect('gigs:show', id)
+
+
+def callback(request):
+    merchant_id = '1344b5d4-0048-11e8-94db-005056a205be'
+    order = request.user.orders_user.last()
+    amount = round(order.gig.price) * 24000
     status = request.GET.get('Status')
     authority = request.GET.get('Authority')
     data = {
@@ -121,14 +140,31 @@ def order(request, id):
         'amount': amount,
         'authority': authority}
 
-    response = requests.post(
-        'https://api.zarinpal.com/pg/v4/payment/verify.json', data)
+    if status == 'NOK':
+        response = requests.post(
+            'https://api.zarinpal.com/pg/v4/payment/verify.json', data)
 
-    o = Order(user=request.user, gig=gig, ordered=True)
-    o.save()
+        order.ordered = True
+        order.save()
 
-    context = {
-        'title': 'Payment Callback',
-        'status': status, 'authority': authority}
+    request.session['status'] = status
+    request.session['authority'] = authority
+    return redirect('gigs:result')
 
-    return render(request, 'gigs/callback.html', context)
+
+def result(request):
+    try:
+        status = request.session['status']
+        authority = request.session['authority']
+
+        del request.session['status']
+        del request.session['authority']
+
+        context = {
+            'title': 'Payment Result',
+            'authority': authority,
+            'status': status
+        }
+        return render(request, 'gigs/result.html', context)
+    except:
+        return redirect('core:index')
