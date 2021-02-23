@@ -70,15 +70,19 @@ def edit(request, id):
 def comment(request, id):
     gig = get_object_or_404(Gig, id=id)
     if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            newForm = form.save(commit=False)
-            newForm.gig = gig
-            newForm.user = request.user
-            newForm.save()
-            messages.success(request, 'Thanks For Your Review !')
-        else:
-            messages.error(request, 'Somhting Went Wrong, Try Again !')
+        orderedCheck = get_object_or_404(
+            Order, user=request.user.id, gig=gig)
+        if orderedCheck:
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                newForm = form.save(commit=False)
+                newForm.gig = gig
+                newForm.user = request.user
+                newForm.save()
+                messages.success(request, 'Thanks For Your Review !')
+            else:
+                messages.error(request, 'Somhting Went Wrong, Try Again !')
+
     if request.method == 'DELETE':
         commentId = request.DELETE.get('id')
         comment = get_object_or_404(Comment, id=commentId)
@@ -91,32 +95,40 @@ def comment(request, id):
     return redirect('gigs:show', id)
 
 
-@login_required(login_url='/accounts/google/login/')
+@ login_required(login_url='/accounts/google/login/')
 def order(request, id):
     gig = get_object_or_404(Gig, id=id)
-    
+    merchant_id = '1344b5d4-0048-11e8-94db-005056a205be'
+    amount = round(gig.price) * 24000
 
     if request.method == 'POST':
         data = {
-            "merchant_id": '1344b5d4-0048-11e8-94db-005056a205be',
-            "amount": round(gig.price) * 24000,
+            "merchant_id": merchant_id,
+            "amount": amount,
             "callback_url": f"http://127.0.0.1:8000/gigs/{gig.id}/order",
             "description": f"Buying '{gig.name}' Gig"}
 
-        url = "https://api.zarinpal.com/pg/v4/payment/request.json"
-        response = requests.post(url, data)
+        response = requests.post(
+            "https://api.zarinpal.com/pg/v4/payment/request.json", data)
         authority = response.json()['data']['authority']
 
-        o = Order(user=request.user, gig=gig, ordered=True)
-        o.save()
         return redirect(f'https://www.zarinpal.com/pg/StartPay/{authority}')
 
     status = request.GET.get('Status')
     authority = request.GET.get('Authority')
-    context = {'title': 'Payment Callback',
-               'status': status, 'authority': authority}
+    data = {
+        'merchant_id': merchant_id,
+        'amount': amount,
+        'authority': authority}
 
-    
-    
+    response = requests.post(
+        'https://api.zarinpal.com/pg/v4/payment/verify.json', data)
+
+    o = Order(user=request.user, gig=gig, ordered=True)
+    o.save()
+
+    context = {
+        'title': 'Payment Callback',
+        'status': status, 'authority': authority}
 
     return render(request, 'gigs/callback.html', context)

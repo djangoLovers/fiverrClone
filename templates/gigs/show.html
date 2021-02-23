@@ -34,6 +34,10 @@
             {% endfor %}
         </div>
     </div>
+
+    {% for order in user.orders_user.all %}
+    {% if gig.id == order.gig.id %}
+
     <div class="col-md-6 mt-4" style="margin-left: 90px;">
         <form action="{% url 'gigs:comment' gig.id %}" class="needs-validation" method="POST" novalidate>
             {% csrf_token %}
@@ -58,6 +62,9 @@
             <button class="mt-2 mb-4 btn btn-primary">Submit</button>
         </form>
     </div>
+
+    {% endif %}
+    {% endfor %}
 </div>
 
 
