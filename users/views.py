@@ -9,11 +9,6 @@ from .forms import UserProfileForm
 User = get_user_model()
 
 
-def index(request):
-    context = {'title': 'Users'}
-    return render(request, 'users/index.html', context)
-
-
 def show(request, id):
     profile = get_object_or_404(User, id=id)
     if request.method == 'POST':

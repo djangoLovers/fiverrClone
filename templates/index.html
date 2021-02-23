@@ -7,20 +7,28 @@
 
 <div class="row">
     <div class="card col-md-5 m-5">
-        <img src="https://res.cloudinary.com/dw2u3eucc/image/upload/v1613942885/kobu-agency-7okkFhxrxNw-unsplash_1_dkzci8.jpg"
-            class="card-img-top" alt="image">
+        <a href="{% url 'gigs:index' %}">
+            <img src="https://res.cloudinary.com/dw2u3eucc/image/upload/v1613942885/kobu-agency-7okkFhxrxNw-unsplash_1_dkzci8.jpg"
+                class="card-img-top" alt="image">
+        </a>
         <div class="card-body">
-            <h5 class="card-title">Looking For a Service ?</h5>
+            <a href="{% url 'gigs:index' %}">
+                <h5 class="card-title">Looking For a Service ?</h5>
+            </a>
             <p class="card-text text-muted">Jump Right in Gigs and Find What You Want !</p>
             <a href="{% url 'gigs:index'%}"><button class="btn btn-success">Gigs</button></a>
             <br>
         </div>
     </div>
     <div class="card col-md-5 m-5">
-        <img src="https://res.cloudinary.com/dw2u3eucc/image/upload/v1613942885/sigmund-Zs1zHhHBG8g-unsplash_ie7ubv.jpg"
-            class="card-img-top" alt="image">
+        <a href="{% url 'gigs:new' %}">
+            <img src="https://res.cloudinary.com/dw2u3eucc/image/upload/v1613942885/sigmund-Zs1zHhHBG8g-unsplash_ie7ubv.jpg"
+                class="card-img-top" alt="image">
+        </a>
         <div class="card-body">
-            <h5 class="card-title">Have a Tallent ?</h5>
+            <a href="{% url 'gigs:new' %}">
+                <h5 class="card-title">Have a Tallent ?</h5>
+            </a>
             <p class="card-text text-muted">Start Share Your Gig's With The World !</p>
             <a href="{% url 'gigs:new'%}"><button class="btn btn-primary">Create a Gig</button></a>
             <br>
@@ -37,9 +45,13 @@
     {% for gig in gigs %}
 
     <div class="card col-md-3 m-5">
-        <img src="{{ gig.image.url }}" class="card-img-top" alt="Gig image">
+        <a href="{% url 'gigs:show' gig.id %}">
+            <img src="{{ gig.image.url }}" class="card-img-top" alt="Gig image">
+        </a>
         <div class="card-body">
-            <h5 class="card-title">{{ gig.name }}</h5>
+            <a href="{% url 'gigs:show' gig.id %}">
+                <h5 class="card-title">{{ gig.name }}</h5>
+            </a>
             <p class="card-text text-muted">{{ gig.description }}</p>
             <a href="{% url 'gigs:show' gig.id %}"><button class="btn btn-primary">${{ gig.price }}</button></a>
             <br>

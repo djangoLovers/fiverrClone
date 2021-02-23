@@ -4,14 +4,19 @@
 
 <div class="row">
     <div class="card col-md-5 m-5">
-        <img src="{{ gig.image.url }}" class="card-img-top" alt="Gig image">
+
+        <a href="{% url 'gigs:show' gig.id %}">
+            <img src="{{ gig.image.url }}" class="card-img-top" alt="Gig image">
+        </a>
         <div class="card-body">
-            <h5 class="card-title">{{ gig.name }}</h5>
+            <a href="{% url 'gigs:show' gig.id %}">
+                <h5 class="card-title">{{ gig.name }}</h5>
+            </a>
             <p class="card-text">{{ gig.description }}</p>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><a href="{% url 'users:show' gig.user.id %}">Gig Owner</a></li>
-            <li class="list-group-item">Price : {{ gig.price }}</li>
+            <li class="list-group-item">Price : ${{ gig.price }}</li>
         </ul>
         <div class="card-body">
             <form action="{% url 'gigs:order' gig.id %}" method="POST" style="display: inline-block;">
