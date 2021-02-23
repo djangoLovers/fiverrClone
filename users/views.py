@@ -42,12 +42,10 @@ def edit(request, id):
 def my_orders(request):
     user = User.objects.get(id=request.user.id)
     o = Order.objects.filter(gig__user=user, ordered=True)
-
+    print(o)
     return render(request, "users/my_orders.html", {'orders': o})
 
 @login_required(login_url='/accounts/google/login/')
 def my_purchases(request):
     my_purchases = Order.objects.filter(user=request.user)
-    print(my_purchases)
-
     return render(request, "users/my_purchases.html", {'my_purchases': my_purchases})
