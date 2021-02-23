@@ -1,11 +1,28 @@
 from django.db import models
-from django.db.models.fields.related import ForeignKey
+from django.db.models import Q
 from django.urls import reverse
 from django.db.models.deletion import CASCADE
 from django.contrib.auth import get_user_model
 
 UserProfile = get_user_model()
 
+class GigQuerySet(models.QuerySet):
+    def search(self, query=None):
+        if query is not None:
+            or_lookup = (
+                Q(name__icontains=query) |
+                Q(description__iexact = query) |
+                Q(user__username__icontains=query)
+            )
+        return self.filter(or_lookup).distinct()
+        
+
+class GigManager(models.Manager):
+    def get_queryset(self):
+        return GigQuerySet(self.model, using=self._db)
+
+    def search(self):
+        return self.get_queryset().search()     
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
@@ -24,6 +41,8 @@ class Gig(models.Model):
     dateCreated = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(
         Category, blank=True, related_name="gigs_category")
+
+    objects = GigManager()
 
     def get_absolute_url(self):
         return reverse("gigs:show", kwargs={"id": self.id})
