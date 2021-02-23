@@ -95,7 +95,7 @@ def comment(request, id):
     return redirect('gigs:show', id)
 
 
-@ login_required(login_url='/accounts/google/login/')
+@login_required(login_url='/accounts/google/login/')
 def order(request, id):
     gig = get_object_or_404(Gig, id=id)
     merchant_id = '1344b5d4-0048-11e8-94db-005056a205be'
