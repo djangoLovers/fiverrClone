@@ -2,7 +2,9 @@
 {% block content %}
 
 <div class="card">
+    {% if profile.image.url %}
     <img src="{{ profile.image.url }}" class="card-img-top" alt="User Image">
+    {% endif %}
     <div class="card-body">
         <h5 class="card-title">{{ profile }}</h5>
         <p class="card-text">{{ profile.description }}</p>
@@ -15,8 +17,12 @@
     </ul>
     <div class="card-body">
         <button class="btn btn-primary"><a href="" class="card-link">Gigs</a></button>
+        {% if request.user.id == profile.id %}
         <a href="{% url 'users:edit' profile.id %}" class="card-link"><button class="btn btn-info">Edit
                 Profile</button></a>
+        <a href="{% url 'users:orders' profile.id %}"><button class="card-link btn btn-success">My Orders</button></a>
+        <a href="{% url 'users:sales' profile.id %}"><button class="card-link btn btn-warning">My Sales</button></a>
+        {% endif %}
     </div>
 </div>
 

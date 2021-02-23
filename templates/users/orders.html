@@ -1,0 +1,30 @@
+{% extends 'partials/main.html' %}
+{% block content %}
+
+<table class="table">
+    <thead>
+        <th scope="col">ID</th>
+        <th scope="col">Gig</th>
+        <th scope="col">Payment</th>
+        <th scope="col">Order Date</th>
+    </thead>
+    <tbody>
+
+        <tr>
+            {% for order in orders %}
+            <th scope="row">{{ order.id }}</th>
+            <td><a href="{% url 'gigs:show' order.gig.id %}">{{ order.gig.name }}</a></td>
+            {% if order.ordered == True %}
+            <td>Sucessful</td>
+            {% else %}
+            <td>Failed</td>
+            {% endif %}
+            <td>{{ order.dateCreated }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endblock %}

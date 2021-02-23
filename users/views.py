@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from gigs.models import Order
@@ -7,6 +7,7 @@ from gigs.models import Order
 from .forms import UserProfileForm
 
 User = get_user_model()
+
 
 def index(request):
     context = {'title': 'Users'}
@@ -39,13 +40,25 @@ def edit(request, id):
 
 
 @login_required(login_url='/accounts/google/login/')
-def my_orders(request):
-    user = User.objects.get(id=request.user.id)
-    o = Order.objects.filter(gig__user=user, ordered=True)
-    print(o)
-    return render(request, "users/my_orders.html", {'orders': o})
+def sales(request, id):
+    profile = get_object_or_404(User, id=id)
+    if request.user == profile:
+        sales = Order.objects.filter(gig__user=id, ordered=True)
+        print(sales)
+        context = {'title': 'My Selles', 'sales': sales}
+        return render(request, "users/sales.html", context)
+    else:
+        messages.error(request, "Sorry, You don't Have Perrmission to do that")
+        return redirect('users:show', profile.id)
+
 
 @login_required(login_url='/accounts/google/login/')
-def my_purchases(request):
-    my_purchases = Order.objects.filter(user=request.user)
-    return render(request, "users/my_purchases.html", {'my_purchases': my_purchases})
+def orders(request, id):
+    profile = get_object_or_404(User, id=id)
+    if request.user == profile:
+        orders = Order.objects.filter(user=id)
+        context = {'title': 'My Orders', 'orders': orders}
+        return render(request, "users/orders.html", context)
+    else:
+        messages.error(request, "Sorry, You don't Have Perrmission to do that")
+        return redirect('users:show', profile.id)
