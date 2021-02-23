@@ -1,0 +1,25 @@
+{% extends 'partials/main.html' %}
+{% block content %}
+    <div class='row title-row my-5'>
+        <div class='col-12 py-0'>
+            <h3 class='my-0 py-0'>{{ count }} results for <b>{{ query }}</b></h3>
+        </div>
+    </div>
+
+    {% for result in results %}
+
+        <div class="card col-md-4">
+            <img src="{{ result.image.url }}" class="card-img-top" alt="Gig image">
+            <div class="card-body">
+                <h5 class="card-title">{{ result.name }}</h5>
+                <p class="card-text text-muted">{{ result.description }}</p>
+                <a href="{{ result.get_absolute_url }}"><button class="btn btn-primary">${{ result.price }}</button></a>
+                <br>
+            </div>
+        </div>
+
+
+    {% endfor %}
+
+
+{% endblock %}
