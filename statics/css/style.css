@@ -23,16 +23,14 @@ a.logout {
     margin: 0 0 0 60px;
 }
 
-div.card.col-md-4{
-    margin: 20px 100px 40px 100px;
-}
-
-div.card.col-md-6{
-    margin: 20px 120px 40px 100px;
-}
-
 img{
   border-radius: 6px;
   max-width: 500px;
   height: auto;
+}
+
+@media(width:885px){
+  div.col-lg-5 {
+    max-width:330px
+  }
 }
