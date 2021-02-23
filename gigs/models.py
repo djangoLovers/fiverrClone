@@ -11,7 +11,7 @@ class GigQuerySet(models.QuerySet):
         if query is not None:
             or_lookup = (
                 Q(name__icontains=query) |
-                Q(description__iexact = query) |
+                Q(description__icontains = query) |
                 Q(user__username__icontains=query)
             )
         return self.filter(or_lookup).distinct()
@@ -21,8 +21,8 @@ class GigManager(models.Manager):
     def get_queryset(self):
         return GigQuerySet(self.model, using=self._db)
 
-    def search(self):
-        return self.get_queryset().search()     
+    def search(self, query=None):
+        return self.get_queryset().search(query=None)     
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
