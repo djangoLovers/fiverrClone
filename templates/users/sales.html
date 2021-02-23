@@ -7,18 +7,25 @@
         <th scope="col">ID</th>
         <th scope="col">Gig</th>
         <th scope="col">Customer</th>
+        <th scope="col">Status</th>
         <th scope="col">Order Date</th>
     </thead>
     <tbody>
 
+        {% for sell in sales %}
+        {% if sell.ordered == True %}
         <tr>
-            {% for sell in sales %}
             <th scope="row">{{ sell.id }}</th>
             <td><a href="{% url 'gigs:show' sell.gig.id %}">{{ sell.gig.name }}</a></td>
             <td><a href="{% url 'users:show' sell.user.id %}">{{ sell.user }}</a></td>
+            {% if sell.delivered == True %}
+            <td>Delivered</td>
+            {% else %}
+            <td>Pending</td>
+            {% endif %}
             <td>{{ sell.dateCreated }}</td>
         </tr>
-
+        {% endif %}
         {% endfor %}
 
     </tbody>

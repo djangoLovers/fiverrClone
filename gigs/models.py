@@ -6,23 +6,25 @@ from django.contrib.auth import get_user_model
 
 UserProfile = get_user_model()
 
+
 class GigQuerySet(models.QuerySet):
     def search(self, query=None):
         if query is not None:
             or_lookup = (
                 Q(name__icontains=query) |
-                Q(description__icontains = query) |
+                Q(description__icontains=query) |
                 Q(user__username__icontains=query)
             )
         return self.filter(or_lookup).distinct()
-        
+
 
 class GigManager(models.Manager):
     def get_queryset(self):
         return GigQuerySet(self.model, using=self._db)
 
     def search(self, query=None):
-        return self.get_queryset().search(query=None)     
+        return self.get_queryset().search(query=None)
+
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
@@ -43,9 +45,6 @@ class Gig(models.Model):
         Category, blank=True, related_name="gigs_category")
 
     objects = GigManager()
-
-    def get_absolute_url(self):
-        return reverse("gigs:show", kwargs={"id": self.id})
 
     def __str__(self):
         return self.name
@@ -68,6 +67,7 @@ class Order(models.Model):
     user = models.ForeignKey(
         UserProfile, on_delete=CASCADE, related_name="orders_user")
     gig = models.ForeignKey(Gig, on_delete=CASCADE, related_name="orders_gig")
+    delivered = models.BooleanField(default=False)
     ordered = models.BooleanField(default=False)
     dateCreated = models.DateTimeField(auto_now_add=True)
 

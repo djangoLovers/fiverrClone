@@ -5,23 +5,24 @@
     <thead>
         <th scope="col">ID</th>
         <th scope="col">Gig</th>
-        <th scope="col">Payment</th>
+        <th scope="col">Status</th>
         <th scope="col">Order Date</th>
     </thead>
     <tbody>
 
+        {% for order in orders %}
+        {% if order.ordered == True %}
         <tr>
-            {% for order in orders %}
             <th scope="row">{{ order.id }}</th>
             <td><a href="{% url 'gigs:show' order.gig.id %}">{{ order.gig.name }}</a></td>
-            {% if order.ordered == True %}
-            <td>Sucessful</td>
+            {% if order.delivered == True %}
+            <td>Delivered</td>
             {% else %}
-            <td>Failed</td>
+            <td>Pending</td>
             {% endif %}
             <td>{{ order.dateCreated }}</td>
         </tr>
-
+        {% endif %}
         {% endfor %}
 
     </tbody>
