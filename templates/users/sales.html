@@ -25,11 +25,11 @@
                 <td>
                     <select class="form-select" name="delivered">
                         {% if sell.delivered == True %}
-                        <option value="True" selected>Delivered</option>
                         <option value="False">Pending</option>
+                        <option value="True" selected>Delivered</option>
                         {% else %}
-                        <option value="True">Delivered</option>
                         <option value="False" selected>Pending</option>
+                        <option value="True">Delivered</option>
                         {% endif %}
                     </select>
                 </td>

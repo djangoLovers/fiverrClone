@@ -13,7 +13,8 @@ def search(request):
         gigs_result = Gig.objects.search(query)
         count = gigs_result.count()
     return render(request, 'gigs/search.html',
-    {'results': gigs_result, 'count':count, 'query': query})
+                  {'results': gigs_result, 'count': count, 'query': query})
+
 
 def index(request):
     gigs = Gig.objects.all()
@@ -61,7 +62,7 @@ def new(request):
             newForm.save()
             form.save_m2m()
             messages.success(request, 'Gig Successfully Created')
-            return redirect('gig:show', newForm.id)
+            return redirect('gigs:show', newForm.id)
         else:
             messages.error(request, 'Somthing Went Wrong ..')
     context = {'title': 'New Gig', 'categories': categories, 'form': form}
@@ -155,6 +156,7 @@ def callback(request):
             'https://api.zarinpal.com/pg/v4/payment/verify.json', data)
 
         order.ordered = True
+        order.gig.orderedTime += 1
         order.save()
 
     request.session['status'] = status

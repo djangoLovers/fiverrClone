@@ -1,28 +1,44 @@
 {% extends 'partials/main.html' %}
 {% block content %}
 
-<div class="card">
-    {% if profile.image.url %}
-    <img src="{{ profile.image.url }}" class="card-img-top" alt="User Image">
-    {% endif %}
-    <div class="card-body">
-        <h5 class="card-title">{{ profile }}</h5>
-        <p class="card-text">{{ profile.description }}</p>
-    </div>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item">{{ profile.fullName }}</li>
-        <li class="list-group-item">Joined Since {{ profile.dateCreated }}</li>
-        <li class="list-group-item">From {{ profile.country }}</li>
-        <li class="list-group-item">Biography : {{ profile.biography }}</li>
-    </ul>
-    <div class="card-body">
-        <button class="btn btn-primary"><a href="" class="card-link">Gigs</a></button>
-        {% if request.user.id == profile.id %}
-        <a href="{% url 'users:edit' profile.id %}" class="card-link"><button class="btn btn-info">Edit
-                Profile</button></a>
-        <a href="{% url 'users:orders' profile.id %}"><button class="card-link btn btn-success">My Orders</button></a>
-        <a href="{% url 'users:sales' profile.id %}"><button class="card-link btn btn-warning">My Sales</button></a>
+<div class="row">
+    <div class="card col-md-5 m-5">
+        {% if profile.image.url %}
+        <img src="{{ profile.image.url }}" class="card-img-top img-fluid mt-3 mb-3" alt="User Image">
         {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{ profile }}</h5>
+            <p class="card-text">{{ profile.description }}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{ profile.fullName }}</li>
+            <li class="list-group-item">Joined Since {{ profile.dateCreated }}</li>
+            <li class="list-group-item">From {{ profile.country.name }}</li>
+            <li class="list-group-item">Biography : {{ profile.biography }}</li>
+        </ul>
+        <div class="card-body">
+            {% if request.user.id == profile.id %}
+            <a href="{% url 'users:edit' profile.id %}" class="card-link"><button class="btn btn-info">Edit
+                    Profile</button></a>
+            <a href="{% url 'users:orders' profile.id %}"><button class="card-link btn btn-success">My
+                    Orders</button></a>
+            <a href="{% url 'users:sales' profile.id %}"><button class="card-link btn btn-warning">My Sales</button></a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-5 m-5">
+
+        <h2>{{ profile.first_name }} Gigs</h2>
+        <table class="table mt-3">
+            <tbody>
+                {% for gig in profile.gigs_user.all %}
+                <tr>
+                    <td><a href="{% url 'gigs:show' gig.id %}">{{ gig.name }}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 

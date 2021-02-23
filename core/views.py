@@ -1,8 +1,16 @@
 from django.shortcuts import render
+from gigs.models import Gig
 
 
 def index(request):
-    return render(request, 'index.html', {'title': 'Home Page'})
+    mostPopulerGigs = Gig.objects.all().order_by('-orderedTime')[:3]
+    newestGigs = Gig.objects.all().order_by('-id')[:3]
+    context = {
+        'title': 'Fiverr Clone',
+        'mostPopulerGigs': mostPopulerGigs,
+        'newestGigs': newestGigs
+    }
+    return render(request, 'index.html', context)
 
 
 def logout(request):
