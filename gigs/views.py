@@ -61,7 +61,7 @@ def new(request):
             newForm.save()
             form.save_m2m()
             messages.success(request, 'Gig Successfully Created')
-            return redirect(newForm.get_absolute_url())
+            return redirect('gig:show', newForm.id)
         else:
             messages.error(request, 'Somthing Went Wrong ..')
     context = {'title': 'New Gig', 'categories': categories, 'form': form}
@@ -131,7 +131,7 @@ def order(request, id):
             "https://api.zarinpal.com/pg/v4/payment/request.json", data)
         authority = response.json()['data']['authority']
 
-        o = Order(user=request.user, gig=gig, ordered=False)
+        o = Order(user=request.user, gig=gig, ordered=False, delivered=True)
         o.save()
 
         return redirect(f'https://www.zarinpal.com/pg/StartPay/{authority}')
