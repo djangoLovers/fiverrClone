@@ -15,20 +15,6 @@ h1.logout {
     margin: 70px 0 0 180px;
 }
 
-button.logout {
-    margin: 0 0 0 60px;
-}
-
-a.logout {
-    margin: 0 0 0 60px;
-}
-
-img{
-  border-radius: 6px;
-  max-width: 500px;
-  height: auto;
-}
-
 @media(width:885px){
   div.col-lg-5 {
     max-width:330px

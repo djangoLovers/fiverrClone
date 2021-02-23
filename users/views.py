@@ -17,9 +17,12 @@ def show(request, id):
                 request.POST, request.FILES, instance=request.user)
             if form.is_valid():
                 form.save()
+                profile = get_object_or_404(User, id=id)
                 messages.success(request, 'Profile Successfully Updated')
             else:
-                return render(request, 'users/edit.html', request.user.id)
+                messages.error(
+                    request, "Sorry, Somthing Went Wrong !")
+                return redirect('users:edit', profile.id)
         else:
             messages.error(
                 request, "Sorry, you don't Have Permission to do that")

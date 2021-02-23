@@ -3,8 +3,14 @@ from gigs.models import Gig
 
 
 def index(request):
-    gigs = Gig.objects.all().order_by('-id')[:3]
-    return render(request, 'index.html', {'title': 'Home Page', 'gigs': gigs})
+    mostPopulerGigs = Gig.objects.all().order_by('-orderedTime')[:3]
+    newestGigs = Gig.objects.all().order_by('-id')[:3]
+    context = {
+        'title': 'Home Page',
+        'mostPopulerGigs': mostPopulerGigs,
+        'newestGigs': newestGigs
+    }
+    return render(request, 'index.html', context)
 
 
 def logout(request):

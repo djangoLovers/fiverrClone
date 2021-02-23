@@ -18,15 +18,14 @@ class GigQuerySet(models.QuerySet):
             )
             qs = self.filter(or_lookup).distinct()
         return qs
-        
+
 
 class GigManager(models.Manager):
     def get_queryset(self):
         return GigQuerySet(self.model, using=self._db)
 
     def search(self, query=None):
-        return self.get_queryset().search(query)     
-
+        return self.get_queryset().search(query)
 
 
 class Category(models.Model):
@@ -42,6 +41,7 @@ class Gig(models.Model):
     name = models.CharField(max_length=90)
     price = models.FloatField(null=True)
     description = models.CharField(max_length=90, null=True)
+    orderedTime = models.IntegerField(default=0)
     image = models.ImageField(null=True)
     dateCreated = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(
