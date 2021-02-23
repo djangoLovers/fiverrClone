@@ -62,7 +62,7 @@ def new(request):
             newForm.save()
             form.save_m2m()
             messages.success(request, 'Gig Successfully Created')
-            return redirect('gig:show', newForm.id)
+            return redirect('gigs:show', newForm.id)
         else:
             messages.error(request, 'Somthing Went Wrong ..')
     context = {'title': 'New Gig', 'categories': categories, 'form': form}

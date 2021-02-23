@@ -47,6 +47,13 @@ def sales(request, id):
             if order.gig.user == profile:
                 order.delivered = request.POST.get('delivered')
                 order.save()
+                if request.POST.get('delivered') == 'True':
+                    status = 'Delivered'
+                else:
+                    status = 'Pending'
+                messages.success(
+                    request, f"Status Changed to '{status}'")
+                return redirect('users:sales', profile.id)
             else:
                 messages.error(
                     request, "Sorry, You don't Have Perrmission to do that")

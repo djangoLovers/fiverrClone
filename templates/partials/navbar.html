@@ -13,7 +13,8 @@
             </div>
             <div class="navbar-nav" id="right-nav">
                 {% if user.is_authenticated %}
-                <a class="nav-link active" href="{% url 'users:show' request.user.id %}">My Profile</a>
+                <a class="nav-link active" href="{% url 'users:show' request.user.id %}">
+                    {{ request.user.first_name }}</a>
                 <a class="nav-link active" href="{% url 'core:logout' %}">Logout</a>
                 {% else %}
                 <a class="nav-link active" href="{% provider_login_url 'google' %}">Login</a>

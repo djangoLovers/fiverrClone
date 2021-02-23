@@ -66,7 +66,7 @@
 
     {% for gig in newestGigs %}
 
-    <div class="card col-md-3 m-5">
+    <div class="card col-lg-3 m-5">
         <a href="{% url 'gigs:show' gig.id %}">
             <img src="{{ gig.image.url }}" class="card-img-top img-fluid mt-3" alt="Gig image">
         </a>
@@ -83,7 +83,5 @@
     {% endfor %}
 
 </div>
-
-
 
 {% endblock %}

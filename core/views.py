@@ -6,7 +6,7 @@ def index(request):
     mostPopulerGigs = Gig.objects.all().order_by('-orderedTime')[:3]
     newestGigs = Gig.objects.all().order_by('-id')[:3]
     context = {
-        'title': 'Home Page',
+        'title': 'Fiverr Clone',
         'mostPopulerGigs': mostPopulerGigs,
         'newestGigs': newestGigs
     }

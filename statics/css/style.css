@@ -12,7 +12,7 @@ a.card-link ,button.btn ,button.btn:hover {
 }
 
 h1.logout {
-    margin: 70px 0 0 180px;
+  text-align: center;
 }
 
 @media(width:885px){
