@@ -8,13 +8,15 @@ UserProfile = get_user_model()
 
 class GigQuerySet(models.QuerySet):
     def search(self, query=None):
+        qs = self
         if query is not None:
             or_lookup = (
                 Q(name__icontains=query) |
                 Q(description__icontains = query) |
                 Q(user__username__icontains=query)
             )
-        return self.filter(or_lookup).distinct()
+            qs = self.filter(or_lookup).distinct()
+        return qs
         
 
 class GigManager(models.Manager):
@@ -22,7 +24,7 @@ class GigManager(models.Manager):
         return GigQuerySet(self.model, using=self._db)
 
     def search(self, query=None):
-        return self.get_queryset().search(query=None)     
+        return self.get_queryset().search(query)     
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
