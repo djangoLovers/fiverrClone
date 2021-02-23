@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, show, new, edit, comment, order, callback, result
+from .views import index, show, new, edit, comment, order, callback, result, search
 
 
 urlpatterns = [
@@ -10,5 +10,6 @@ urlpatterns = [
     path('<int:id>/comment/', comment, name='comment'),
     path('<int:id>/order/', order, name='order'),
     path('callback/', callback, name='callback'),
-    path('result/', result, name='result')
+    path('result/', result, name='result'),
+    path('search', search, name="search")
 ]

@@ -6,6 +6,15 @@ from .forms import GigForm, CommentForm
 from .models import Category, Comment, Gig, Order
 
 
+def search(request):
+    query = request.GET.get('q')
+    count = 0
+    if query is not None:
+        gigs_result = Gig.objects.search(query)
+        count = len(gigs_result)
+    return render(request, 'gigs/search.html',
+    {'results': gigs_result, 'count':count, 'query': query})
+
 def index(request):
     gigs = Gig.objects.all()
     context = {'title': 'Gigs', 'gigs': gigs}
