@@ -6,6 +6,12 @@ from .forms import GigForm, CommentForm
 from .models import Category, Comment, Gig, Order
 
 
+def index(request):
+    gigs = Gig.objects.all()
+    context = {'title': 'Gigs', 'gigs': gigs}
+    return render(request, 'gigs/index.html', context)
+
+
 def search(request):
     query = request.GET.get('q')
     count = 0
@@ -14,12 +20,6 @@ def search(request):
         count = gigs_result.count()
     return render(request, 'gigs/search.html',
                   {'results': gigs_result, 'count': count, 'query': query})
-
-
-def index(request):
-    gigs = Gig.objects.all()
-    context = {'title': 'Gigs', 'gigs': gigs}
-    return render(request, 'gigs/index.html', context)
 
 
 def show(request, id):
