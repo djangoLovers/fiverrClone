@@ -155,8 +155,10 @@ def callback(request):
         response = requests.post(
             'https://api.zarinpal.com/pg/v4/payment/verify.json', data)
 
+        gig = Gig.objects.get(id=order.gig.id)
+        gig.quantity += 1
+        gig.save()
         order.ordered = True
-        order.gig.quantity += 1
         order.save()
 
     request.session['status'] = status

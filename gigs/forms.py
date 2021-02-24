@@ -6,7 +6,7 @@ from .models import Comment, Gig
 class GigForm(ModelForm):
     class Meta:
         model = Gig
-        exclude = ['user', 'orderedTime']
+        exclude = ['user', 'quantity']
 
 
 class CommentForm(ModelForm):
