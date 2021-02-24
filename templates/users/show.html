@@ -14,19 +14,20 @@
             <li class="list-group-item">From {{ profile.country.name }}</li>
             <li class="list-group-item">Biography : {{ profile.biography }}</li>
         </ul>
+        {% if request.user.id == profile.id %}
         <div class="card-body">
-            {% if request.user.id == profile.id %}
             <a href="{% url 'users:edit' profile.id %}" class="card-link"><button class="btn btn-info">Edit
                     Profile</button></a>
             <a href="{% url 'users:orders' profile.id %}"><button class="card-link btn btn-success">My
                     Orders</button></a>
             <a href="{% url 'users:sales' profile.id %}"><button class="card-link btn btn-warning">My Sales</button></a>
-            {% endif %}
         </div>
+        {% endif %}
     </div>
 
-    <div class="col-md-5 m-5">
+    {% if profile.gigs_user.all %}
 
+    <div class="col-md-5 m-5">
         <h2>{{ profile.first_name }} Gigs</h2>
         <table class="table mt-3">
             <tbody>
@@ -39,6 +40,6 @@
         </table>
     </div>
 </div>
-
+{% endif %}
 
 {% endblock %}

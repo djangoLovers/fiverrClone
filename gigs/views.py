@@ -104,12 +104,16 @@ def comment(request, id):
 
         if orderedCheck:
             form = CommentForm(request.POST)
+            rating = request.POST.get('rating')
             if form.is_valid():
-                newForm = form.save(commit=False)
-                newForm.gig = gig
-                newForm.user = request.user
-                newForm.save()
-                messages.success(request, 'Thanks For Your Review !')
+                if int(rating) in range(1, 6):
+                    newForm = form.save(commit=False)
+                    newForm.gig = gig
+                    newForm.user = request.user
+                    newForm.save()
+                    messages.success(request, 'Thanks For Your Review !')
+                else:
+                    messages.error(request, 'Please Set a Valid Rating !')
             else:
                 messages.error(request, 'Somhting Went Wrong, Try Again !')
 

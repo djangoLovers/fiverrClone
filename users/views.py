@@ -14,7 +14,7 @@ def show(request, id):
     if request.method == 'POST':
         if profile.id == request.user.id:
             form = UserProfileForm(
-                request.POST, request.FILES, instance=request.user)
+                request.POST, request.FILES, instance=profile)
             if form.is_valid():
                 form.save()
                 profile = get_object_or_404(User, id=id)
