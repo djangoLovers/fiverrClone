@@ -31,7 +31,7 @@
         <div class="card-body">
             Category :
             {% for category in gig.category.all %}
-            {% if lastCat == category %}
+            {% if category == gig.category.last %}
             <a href="{% url 'gigs:search' %}?q=&category={{ category.id }}">{{ category.name }}</a>
             {% else %}
             <a href="{% url 'gigs:search' %}?q=&category={{ category.id }}">{{ category.name }}, </a>
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    {% if ordered == True %}
+    {% if ordered %}
 
     <div class="col-md-5 m-5">
         <form action="{% url 'gigs:comment' gig.id %}" class="needs-validation" method="POST" novalidate>
@@ -48,7 +48,7 @@
             <label class="form-label" for="comment" style="font-size: 35px;">Draw a Comment !</label>
             <fieldset class="starability-basic">
                 <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="1" checked
-                    aria-label="No rating." />
+                    aria-label="No rating." required />
                 <input type="radio" id="first-rate1" name="rating" value="1" />
                 <label for="first-rate1" title="Terrible">1 star</label>
                 <input type="radio" id="first-rate2" name="rating" value="2" />

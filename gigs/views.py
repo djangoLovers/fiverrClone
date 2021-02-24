@@ -10,15 +10,28 @@ from .filter import gigFilter
 
 def index(request):
     gigs = Gig.objects.all()
+    if request.method == 'POST':
+        form = GigForm(request.POST, request.FILES)
+        if form.is_valid():
+            newForm = form.save(commit=False)
+            newForm.user = request.user
+            newForm.save()
+            form.save_m2m()
+            messages.success(request, 'Gig Successfully Created')
+            return redirect('gigs:show', newForm.id)
+        else:
+            messages.error(request, 'Somthing Went Wrong ..')
+            return redirect('gigs:new')
     context = {'title': 'Gigs', 'gigs': gigs}
     return render(request, 'gigs/index.html', context)
 
 
 def search(request):
     categories = Category.objects.all()
-    query = {'q': 0, 'category': 0}
-    query['q'] = request.GET.get('q')
-    query['category'] = request.GET.get('category')
+    query = {
+        'q': request.GET.get('q'),
+        'category': request.GET.get('category')
+    }
     gigs_result = Gig.objects.search(query['q'])
     filter = gigFilter(request.GET, queryset=gigs_result)
     gigs_result = filter.qs
@@ -36,18 +49,13 @@ def search(request):
 def show(request, id):
     gig = get_object_or_404(Gig, id=id)
     orderedCheck = Order.objects.filter(
-        user=request.user.id, gig=gig, ordered=True)
-    if len(orderedCheck):
-        res = True
-    else:
-        res = False
-
-    if request.method == 'POST':
+        user=request.user, gig=gig, ordered=True).exists()
+    if request.method == 'PUT':
         if request.user.id == gig.user.id:
-            form = GigForm(request.POST, request.FILES, instance=gig)
+            form = GigForm(request.PUT, request.FILES, instance=gig)
             if form.is_valid():
                 newForm = form.save(commit=False)
-                newForm.user = request.user
+                newForm.user = gig.user
                 newForm.save()
                 form.save_m2m()
                 messages.success(request, 'Gig Successfully Updated')
@@ -55,9 +63,8 @@ def show(request, id):
                 messages.error(request, 'Somthing Went Wrong ...')
         else:
             messages.error(request, "You Don't have The Permission to do that")
-    lastCat = gig.category.all().last()
-    context = {'title': gig.name, 'gig': gig,
-               'lastCat': lastCat, 'ordered': res}
+
+    context = {'title': gig.name, 'gig': gig, 'ordered': orderedCheck}
     return render(request, 'gigs/show.html', context)
 
 
@@ -83,30 +90,31 @@ def new(request):
 @login_required(login_url='/accounts/google/login/')
 def edit(request, id):
     gig = get_object_or_404(Gig, id=id)
-    if request.user.id == gig.user.id:
+    if request.user == gig.user:
         categories = Category.objects.all()
         context = {
             'title': f'Editing {gig.name}',
-            'gig': gig, 'categories': categories
+            'gig': gig,
+            'categories': categories
         }
         return render(request, 'gigs/edit.html', context)
     else:
-        messages.error(request, "You Don't have The Permission to do that")
-        return redirect('core:index')
+        messages.error(
+            request, "Sorry, You Don't have The Permission to do that")
+        return redirect('gigs:show', gig.id)
 
 
 @login_required(login_url='/accounts/google/login/')
 def comment(request, id):
     gig = get_object_or_404(Gig, id=id)
-    if request.method == 'POST':
-        orderedCheck = Order.objects.filter(
-            user=request.user, gig=gig).exists()
+    orderedCheck = Order.objects.filter(
+        user=request.user, gig=gig, ordered=True).exists()
 
-        if orderedCheck:
+    if orderedCheck:
+        if request.method == 'POST':
             form = CommentForm(request.POST)
-            rating = request.POST.get('rating')
             if form.is_valid():
-                if int(rating) in range(1, 6):
+                if int(request.POST['rating']) in range(1, 6):
                     newForm = form.save(commit=False)
                     newForm.gig = gig
                     newForm.user = request.user
@@ -117,15 +125,15 @@ def comment(request, id):
             else:
                 messages.error(request, 'Somhting Went Wrong, Try Again !')
 
-    if request.method == 'DELETE':
-        commentId = request.DELETE.get('id')
-        comment = get_object_or_404(Comment, id=commentId)
-        if comment.user == request.user:
-            comment.delete()
-            messages.success(request, 'Comment Successfuly Deleted !')
-        else:
-            messages.error(
-                request, "Sorry, you don't Have Permission to do that")
+        if request.method == 'DELETE':
+            commentId = request.DELETE.get('id')
+            comment = get_object_or_404(Comment, id=commentId)
+            if comment.user == request.user:
+                comment.delete()
+                messages.success(request, 'Comment Successfuly Deleted !')
+    else:
+        messages.error(
+            request, "Sorry, you don't Have Permission to do that")
     return redirect('gigs:show', id)
 
 
@@ -156,7 +164,7 @@ def order(request, id):
 
 
 def callback(request):
-    merchant_id = '1344b5d4-0048-11e8-94db-005056a205be'
+    merchant_id = environ.get('MERCHANT_ID')
     order = request.user.orders_user.last()
     amount = round(order.gig.price) * 24000
     status = request.GET.get('Status')
@@ -164,7 +172,8 @@ def callback(request):
     data = {
         'merchant_id': merchant_id,
         'amount': amount,
-        'authority': authority}
+        'authority': authority
+    }
 
     if status == 'NOK':
         response = requests.post(

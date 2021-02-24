@@ -1,4 +1,5 @@
 {% extends 'partials/main.html' %}
+{% load method_override %}
 {% block content %}
 
 
@@ -21,6 +22,7 @@
             <td><a href="{% url 'users:show' sell.user.id %}">{{ sell.user }}</a></td>
             <form action="" method="POST">
                 {% csrf_token %}
+                {% method_override 'PUT' %}
                 <input type="number" name="order" value="{{ sell.id }}" hidden>
                 <td>
                     <select class="form-select" name="delivered">

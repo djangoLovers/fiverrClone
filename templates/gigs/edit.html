@@ -1,4 +1,5 @@
 {% extends 'partials/main.html' %}
+{% load method_override %}
 {% block content %}
 
 <div class="col-6 offset-3">
@@ -7,7 +8,7 @@
         <form action="{% url 'gigs:show' gig.id %}" class="needs-validation" method="POST" enctype="multipart/form-data"
             novalidate>
             {% csrf_token %}
-
+            {% method_override 'PUT' %}
             <h1 class="mb-4 col-md-6">Editing {{ gig.name }}</h1>
 
             <div class="row">
