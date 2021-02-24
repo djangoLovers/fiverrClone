@@ -1,4 +1,5 @@
 import requests
+from os import environ
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
@@ -129,7 +130,7 @@ def order(request, id):
 
     if request.method == 'POST':
         gig = get_object_or_404(Gig, id=id)
-        merchant_id = '1344b5d4-0048-11e8-94db-005056a205be'
+        merchant_id = environ.get('MERCHANT_ID')
         amount = round(gig.price) * 24000
         data = {
             "merchant_id": merchant_id,
