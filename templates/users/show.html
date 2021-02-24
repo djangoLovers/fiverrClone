@@ -3,9 +3,7 @@
 
 <div class="row">
     <div class="card col-md-5 m-5">
-        {% if profile.image.url %}
-        <img src="{{ profile.image.url }}" class="card-img-top img-fluid mt-3 mb-3" alt="User Image">
-        {% endif %}
+        <img src="{{ profile.get_photo_url }}" class="card-img-top img-fluid mt-3 mb-3" alt="User Image">
         <div class="card-body">
             <h5 class="card-title">{{ profile }}</h5>
             <p class="card-text">{{ profile.description }}</p>
