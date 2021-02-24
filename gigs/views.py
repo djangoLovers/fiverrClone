@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import GigForm, CommentForm
 from .models import Category, Comment, Gig, Order
+from .filter import gigFilter
 
 
 def index(request):
@@ -13,13 +14,22 @@ def index(request):
 
 
 def search(request):
-    query = request.GET.get('q')
-    count = 0
-    if query is not None:
-        gigs_result = Gig.objects.search(query)
-        count = gigs_result.count()
-    return render(request, 'gigs/search.html',
-                  {'results': gigs_result, 'count': count, 'query': query})
+    categories = Category.objects.all()
+    query = {'q': 0, 'category': 0}
+    query['q'] = request.GET.get('q')
+    query['category'] = request.GET.get('category')
+    gigs_result = Gig.objects.search(query['q'])
+    filter = gigFilter(request.GET, queryset=gigs_result)
+    gigs_result = filter.qs
+    count = gigs_result.count()
+    context = {
+        'results': gigs_result,
+        'count': count,
+        'query': query,
+        'filter': filter,
+        'categories': categories
+    }
+    return render(request, 'gigs/search.html', context)
 
 
 def show(request, id):
