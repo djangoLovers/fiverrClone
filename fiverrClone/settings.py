@@ -126,6 +126,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/statics/'
 STATIC_ROOT = BASE_DIR
+STATIC_URL = '/statics/'
 STATICFILES_DIRS = [BASE_DIR / 'statics']
