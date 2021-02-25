@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'fiverr-clone.herokuapp.com']
 
@@ -126,6 +126,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_ROOT = BASE_DIR
+STATIC_ROOT = BASE_DIR / 'statics'
 STATIC_URL = '/statics/'
 STATICFILES_DIRS = [BASE_DIR / 'statics']
