@@ -5,76 +5,76 @@
 <div class="col-6 offset-3">
 
     <div class="row">
-        <form action="{% url 'gigs:show' gig.id %}" class="needs-validation" method="POST" enctype="multipart/form-data"
-            novalidate>
-            {% csrf_token %}
-            {% method_override 'PUT' %}
-            <h1 class="mb-4 col-md-6">Editing {{ gig.name }}</h1>
-
-            <div class="row">
-                <div class="mb-3 col-6">
-                    <label class="form-label" for="name">Gig Name</label>
-                    <input class="form-control" name="name" type="text" id="name" placeholder="Name of Your Gig"
-                        value="{{ gig.name }}" required>
-
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="mb-3 col-6">
-                    <label class="form-label" for="price">Gig Price</label>
-                    <input class="form-control" name="price" type="number" id="price" placeholder="Price of Your Gig"
-                        value="{{ gig.price }}" min="1" step="0.01" required>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3 col-12">
-                    <label class="form-label" for="description">Description</label>
-                    <input class="form-control" type="text" name="description" id="description"
-                        value="{{ gig.description }}" placeholder="a Short Description">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3 col-12">
-                    <label for="image" class="form-label">Update The Gig image</label>
-                    <input class="form-control" type="file" name="image" id="image" accept="image/*">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3 col-12">
-                    <div class="form-check form-switch">
-                        {% for category in categories %}
-                        {% if category in gig.category.all %}
-                        <label class="form-check-label" for="category_{{ category.id }}">{{ category.name }}</label>
-                        <input class="form-check-input" value="{{ category.id }}" type="checkbox"
-                            id="category_{{ category.id }}" name="category" checked>
-                        <br>
-                        {% else %}
-                        <label class="form-check-label" for="category_{{ category.id }}">{{ category.name }}</label>
-                        <input class="form-check-input" value="{{ category.id }}" type="checkbox"
-                            id="category_{{ category.id }}" name="category">
-                        <br>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-            </div>
-
-            <button class="btn btn-primary">Submit</button>
-
-        </form>
+        <h1 class="mb-4 col-md-12">Editing <a href="{% url 'gigs:show' gig.id %}">'{{ gig.name }}'</a></h1>
     </div>
+    <form action="{% url 'gigs:show' gig.id %}" class="needs-validation" method="POST" enctype="multipart/form-data"
+        novalidate>
+        {% csrf_token %}
+        {% method_override 'PUT' %}
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label class="form-label" for="name">Gig Name</label>
+                <input class="form-control" name="name" type="text" id="name" placeholder="Name of Your Gig"
+                    value="{{ gig.name }}" required>
+
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3 col-md-6">
+                <label class="form-label" for="price">Gig Price</label>
+                <input class="form-control" name="price" type="number" id="price" placeholder="Price of Your Gig"
+                    value="{{ gig.price }}" min="1" step="0.01" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-12">
+                <label class="form-label" for="description">Description</label>
+                <input class="form-control" type="text" name="description" id="description"
+                    value="{{ gig.description }}" placeholder="a Short Description">
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-12">
+                <label for="image" class="form-label">Update The Gig image</label>
+                <input class="form-control" type="file" name="image" id="image" accept="image/*">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-12">
+                <div class="form-check form-switch">
+                    {% for category in categories %}
+                    {% if category in gig.category.all %}
+                    <label class="form-check-label" for="category_{{ category.id }}">{{ category.name }}</label>
+                    <input class="form-check-input" value="{{ category.id }}" type="checkbox"
+                        id="category_{{ category.id }}" name="category" checked>
+                    <br>
+                    {% else %}
+                    <label class="form-check-label" for="category_{{ category.id }}">{{ category.name }}</label>
+                    <input class="form-check-input" value="{{ category.id }}" type="checkbox"
+                        id="category_{{ category.id }}" name="category">
+                    <br>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-outline-primary">Update</button>
+
+    </form>
+
 
     {% endblock %}

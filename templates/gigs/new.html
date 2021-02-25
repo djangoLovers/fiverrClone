@@ -4,68 +4,66 @@
 <div class="col-6 offset-3">
 
     <div class=" row ">
-        <form action="{% url 'gigs:index' %}" class="needs-validation" method="POST" enctype="multipart/form-data"
-            novalidate>
-            {% csrf_token %}
-
-            <h1 class="mb-4 col-md-6">Create a New Gig</h1>
-
-            <div class="row">
-                <div class="mb-3 col-6">
-                    <label class="form-label" for="name">Gig Name</label>
-                    <input class="form-control" name="name" type="text" id="name" placeholder="Name of Your Gig"
-                        required>
-
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-                <div class="mb-3 col-6">
-                    <label class="form-label" for="price">Gig Price</label>
-                    <input class="form-control" name="price" type="number" id="price" placeholder="Price of Your Gig"
-                        min="1" step="0.01" required>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3 col-12">
-                    <label class="form-label" for="description">Description</label>
-                    <input class="form-control" type="text" name="description" id="description"
-                        placeholder="a Short Description">
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3 col-12">
-                    <label for="image" class="form-label">Add a image For Your Gig</label>
-                    <input class="form-control" type="file" name="image" id="image" accept="image/*" required>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="mb-3 col-md-12">
-                    <div class="form-check form-switch">
-                        {% for category in categories %}
-                        <label class="form-check-label" for="category_{{ category.id }}">{{ category.name }}</label>
-                        <input class="form-check-input" value="{{ category.id }}" type="checkbox"
-                            id="category_{{ category.id }}" name="category">
-                        <br>
-                        {% endfor %}
-                    </div>
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
-            </div>
-
-            <button class="btn btn-primary">Submit</button>
-        </form>
+        <h1 class="mb-4 col-md-12">Create a New Gig</h1>
     </div>
+    <form action="{% url 'gigs:index' %}" class="needs-validation" method="POST" enctype="multipart/form-data"
+        novalidate>
+        {% csrf_token %}
+
+        <div class="row">
+            <div class="mb-3 col-md-6">
+                <label class="form-label" for="name">Gig Name</label>
+                <input class="form-control" name="name" type="text" id="name" placeholder="Name of Your Gig" required>
+
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+            <div class="mb-3 col-md-6">
+                <label class="form-label" for="price">Gig Price</label>
+                <input class="form-control" name="price" type="number" id="price" placeholder="Price of Your Gig"
+                    min="1" step="0.01" required>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-12">
+                <label class="form-label" for="description">Description</label>
+                <input class="form-control" type="text" name="description" id="description"
+                    placeholder="a Short Description">
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-12">
+                <label for="image" class="form-label">Add a image For Your Gig</label>
+                <input class="form-control" type="file" name="image" id="image" accept="image/*" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-12">
+                <div class="form-check form-switch">
+                    {% for category in categories %}
+                    <label class="form-check-label" for="category_{{ category.id }}">{{ category.name }}</label>
+                    <input class="form-check-input" value="{{ category.id }}" type="checkbox"
+                        id="category_{{ category.id }}" name="category">
+                    <br>
+                    {% endfor %}
+                </div>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-outline-primary">Submit</button>
+    </form>
 
     {% endblock %}

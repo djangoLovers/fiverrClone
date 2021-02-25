@@ -14,7 +14,7 @@
 
             <div class="row">
 
-                <div class="mb-3 col-6">
+                <div class="mb-3 col-md-6">
                     <label class="form-label" for="first_name">First Name</label>
                     <input class="form-control" name="first_name" type="text" id="first_name"
                         placeholder="Enter Your First Name" value="{{ profile.first_name }}" required>
@@ -24,7 +24,7 @@
                     </div>
                 </div>
 
-                <div class="mb-3 col-6">
+                <div class="mb-3 col-md-6">
                     <label class="form-label" for="last_name">Last Name</label>
                     <input class="form-control" name="last_name" type="text" id="last_name"
                         placeholder="Enter Your Last Name" value="{{ profile.last_name }}" required>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
 
-                <div class="mb-3 col-12">
+                <div class="mb-3 col-md-12">
                     <label class="form-label" for="description">Description</label>
                     <input class="form-control" name="description" type="text" id="description"
                         placeholder="Write a Short Description" value="{{ profile.description }}" required>
@@ -44,7 +44,7 @@
                     </div>
                 </div>
 
-                <div class="mb-3 col-12">
+                <div class="mb-3 col-md-12">
                     <label class="form-label" for="biography">Biography</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" name="biography" rows="3"
                         placeholder="Hello My Name is .." required>{{ profile.biography }}</textarea>
@@ -55,13 +55,13 @@
                 </div>
 
                 <div class="row">
-                    <div class="mb-3 col-12">
+                    <div class="mb-3 col-md-12">
                         <label for="image" class="form-label">Upload an image of Yourself</label>
                         <input class="form-control" type="file" name="image" id="image" accept="image/*">
                     </div>
                 </div>
 
-                <div class="mb-3 col-12">
+                <div class="mb-3 col-md-12">
                     <label for="country" class="form-label">Country</label>
                     {% get_countries as countries %}
                     <select name="country" id="country" class="form-select form-select-sm">
@@ -77,7 +77,7 @@
 
             </div>
 
-            <button class="btn btn-info">Submit</button>
+            <button class="btn btn-outline-info">Update</button>
 
         </form>
     </div>
