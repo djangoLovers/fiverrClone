@@ -57,7 +57,8 @@ coverage.xml
 
 # Django stuff:
 *.log
-
+db.sqlite3
+db.sqlite3-journal
 local_settings.py
 
 
