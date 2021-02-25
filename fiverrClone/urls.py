@@ -10,9 +10,3 @@ urlpatterns = [
     path('gigs/', include(('gigs.urls', 'gigs'))),
     path('accounts/', include('allauth.urls')),
 ]
-
-if not settings.DEBUG:
-    urlpatterns += patterns('',
-                            (r'^static/(?P<path>.*)$', 'django.views.static.serve',
-                             {'document_root': settings.STATIC_ROOT}),
-                            )
