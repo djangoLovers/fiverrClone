@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import Q
 from django.db.models.deletion import CASCADE
 from django.contrib.auth import get_user_model
+from cloudinary.models import CloudinaryField
 
 UserProfile = get_user_model()
 
@@ -41,7 +42,7 @@ class Gig(models.Model):
     price = models.FloatField(null=True)
     description = models.CharField(max_length=90, null=True)
     quantity = models.IntegerField(default=0)
-    image = models.ImageField(null=True)
+    image = CloudinaryField('image', blank=True, null=True)
     dateCreated = models.DateTimeField(auto_now_add=True)
     category = models.ManyToManyField(
         Category, blank=True, related_name="gigs_category")

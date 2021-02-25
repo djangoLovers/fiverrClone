@@ -1,11 +1,15 @@
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'fiverr-clone.herokuapp.com']
 
@@ -29,6 +33,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'django_countries',
     'method_override',
+    'cloudinary',
     # local apps
     'core',
     'users',
@@ -89,6 +94,12 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
+cloudinary.config(
+    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.environ.get('CLOUDINARY_API_KEY'),
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
+)
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -115,9 +126,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/statics/'
-MEDIA_URL = '/images/'
-
 STATIC_ROOT = BASE_DIR
+STATIC_URL = '/statics/'
 STATICFILES_DIRS = [BASE_DIR / 'statics']
-MEDIA_ROOT = BASE_DIR / 'statics/images'

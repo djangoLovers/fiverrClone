@@ -3,7 +3,12 @@
 
 <div class="row">
     <div class="card col-md-5 m-5">
-        <img src="{{ profile.get_photo_url }}" class="card-img-top img-fluid mt-3 mb-3" alt="User Image">
+        {% if len.profile.image.url > 1 %}
+        <img src="{{ profile.image.url }}" alt="User Image" class="card-img-top img-fluid mt-3 mb-3" alt="User Image">
+        {% else %}
+        <img src="https://res.cloudinary.com/dw2u3eucc/image/upload/v1614279425/kpsda8xew7tknxmmccuf.jpg"
+            alt="User Image" class="card-img-top img-fluid mt-3 mb-3" alt="User Image">
+        {% endif %}
         <div class="card-body">
             <h5 class="card-title">{{ profile }}</h5>
             <p class="card-text">{{ profile.description }}</p>

@@ -7,7 +7,7 @@ a, a:hover{
   margin-left: auto;
 }
 
-a.card-link ,button.btn-info ,button.btn-warning ,button.btn-info:hover ,button.btn-warning:hover{
+a.card-link ,button.btn-info ,button.btn-warning ,button.btn-info:hover ,button.btn-warning:hover,button.btn-outline-info:hover{
   color: #ffffff;
 }
 
