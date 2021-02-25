@@ -5,9 +5,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -115,9 +115,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_ROOT = '/statics/'
 STATIC_URL = '/statics/'
 MEDIA_URL = '/images/'
 
+STATIC_ROOT = BASE_DIR
 STATICFILES_DIRS = [BASE_DIR / 'statics']
 MEDIA_ROOT = BASE_DIR / 'statics/images'
