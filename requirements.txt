@@ -6,4 +6,5 @@ django-method-override==1.0.4
 django-countries==7.0
 zeep==4.0.0
 pillow==8.1.0
+gunicorn==20.0.4
 mysqlclient==2.0.3
