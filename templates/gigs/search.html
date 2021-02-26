@@ -44,7 +44,7 @@
                 <h5 class="card-title">{{ gig.name }}</h5>
             </a>
             <p class="card-text text-muted">{{ gig.description }}</p>
-            <a href="{% url 'gigs:show' gig.id %}"><button class="btn btn-primary">${{ gig.price }}</button></a>
+            <a href="{% url 'gigs:show' gig.id %}"><button class="btn btn-outline-primary">${{ gig.price }}</button></a>
             <br>
         </div>
     </div>
