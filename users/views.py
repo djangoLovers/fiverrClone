@@ -32,8 +32,12 @@ def show(request, id):
 @login_required(login_url='/accounts/google/login/')
 def edit(request, id):
     profile = get_object_or_404(User, id=id)
-    context = {'title': f'Editing {profile}', 'profile': profile}
-    return render(request, 'users/edit.html', context)
+    if profile == request.user:
+        context = {'title': f'Editing {profile}', 'profile': profile}
+        return render(request, 'users/edit.html', context)
+    else:
+        messages.error(request, "Sorry, You don't Have Perrmission to do that")
+        return redirect('users:show', profile.id)
 
 
 @login_required(login_url='/accounts/google/login/')
