@@ -37,6 +37,7 @@ def search(request):
     gigs_result = filter.qs
     count = gigs_result.count()
     context = {
+        'title': 'Search Result',
         'results': gigs_result,
         'count': count,
         'query': query,
@@ -147,7 +148,7 @@ def order(request, id):
         data = {
             "merchant_id": merchant_id,
             "amount": amount,
-            "callback_url": 'http://127.0.0.1:8000/gigs/callback',
+            "callback_url": 'https://fiverr-clone.herokuapp.com/gigs/callback',
             "description": f"Buying '{gig.name}' Gig"
         }
 
