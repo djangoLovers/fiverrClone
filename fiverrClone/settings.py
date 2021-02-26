@@ -82,7 +82,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 WSGI_APPLICATION = 'fiverrClone.wsgi.application'
 
-if settings.DEBUG:
+""" if settings.DEBUG:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -91,21 +91,21 @@ if settings.DEBUG:
     }
 
 
-else:
+else: """
 
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'fiverrClone',
-            'USER': os.environ.get('DATABASE_USER'),
-            'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-            'HOST': os.environ.get('DATABASE_URL'),
-            'PORT': os.environ.get('DATABASE_PORT')
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'fiverrClone',
+        'USER': os.environ.get('DATABASE_USER'),
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'HOST': os.environ.get('DATABASE_URL'),
+        'PORT': os.environ.get('DATABASE_PORT')
     }
+}
 
-    DATABASES['default'] = dj_database_url.config(
-        conn_max_age=600, ssl_require=True)
+DATABASES['default'] = dj_database_url.config(
+    conn_max_age=600, ssl_require=True)
 
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_PROVIDERS = {

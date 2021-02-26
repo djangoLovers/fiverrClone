@@ -49,8 +49,11 @@ def search(request):
 
 def show(request, id):
     gig = get_object_or_404(Gig, id=id)
-    orderedCheck = Order.objects.filter(
-        user=request.user, gig=gig, ordered=True).exists()
+    try:
+        orderedCheck = Order.objects.filter(
+            user=request.user, gig=gig, ordered=True).exists()
+    except:
+        orderedCheck = False
     if request.method == 'PUT':
         if request.user.id == gig.user.id:
             form = GigForm(request.PUT, request.FILES, instance=gig)
