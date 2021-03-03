@@ -1,15 +1,17 @@
-{% extends 'partials/main.html' %}
-{% load countries %}
-{% block content %}
+{% extends 'partials/main.html' %} {% load countries %} {% block content %}
 
 <form class="row" action="/accounts/logout/" method="POST">
-    {% csrf_token %}
+  {% csrf_token %}
 
-    <h1 class="col-md-12 mb-5 logout">Are You Sure ?</h1>
-    <div class="offset-2">
-        <a href="{% url 'core:index' %}" class="btn btn-primary col-md-3 m-5">No take me Back</a>
-        <button type="submit" class="btn btn-danger col-md-3 m-5">Yes Log me Out</button>
-    </div>
+  <h1 class="col-md-12 mb-5 logout">Are You Sure ?</h1>
+  <div class="offset-2">
+    <a href="{% url 'core:index' %}" class="btn btn-primary col-md-3 m-5">
+      No take me Back
+    </a>
+    <button type="submit" class="btn btn-danger col-md-3 m-5">
+      Yes Log me Out
+    </button>
+  </div>
 </form>
 
 {% endblock %}

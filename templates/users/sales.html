@@ -1,49 +1,42 @@
-{% extends 'partials/main.html' %}
-{% load method_override %}
-{% block content %}
-
+{% extends 'partials/main.html' %} {% load method_override %} {% block content %}
 
 <table class="table">
-    <thead>
-        <th scope="col">ID</th>
-        <th scope="col">Gig</th>
-        <th scope="col">Customer</th>
-        <th scope="col">Status</th>
-        <th scope="col">Order Date</th>
-        <th scope="col"></th>
-    </thead>
-    <tbody>
-
-        {% for sell in sales %}
-        {% if sell.ordered == True %}
-        <tr>
-            <th scope="row">{{ sell.id }}</th>
-            <td><a href="{% url 'gigs:show' sell.gig.id %}">{{ sell.gig.name }}</a></td>
-            <td><a href="{% url 'users:show' sell.user.id %}">{{ sell.user }}</a></td>
-            <form action="" method="POST">
-                {% csrf_token %}
-                {% method_override 'PUT' %}
-                <input type="number" name="order" value="{{ sell.id }}" hidden>
-                <td>
-                    <select class="form-select" name="delivered">
-                        {% if sell.delivered == True %}
-                        <option value="False">Pending</option>
-                        <option value="True" selected>Delivered</option>
-                        {% else %}
-                        <option value="False" selected>Pending</option>
-                        <option value="True">Delivered</option>
-                        {% endif %}
-                    </select>
-                </td>
-                <td>{{ sell.dateCreated }}</td>
-                <td><button class="btn btn-info btn-sm">Update</button></td>
-            </form>
-
-        </tr>
-        {% endif %}
-        {% endfor %}
-
-    </tbody>
+  <thead>
+    <th scope="col">ID</th>
+    <th scope="col">Gig</th>
+    <th scope="col">Customer</th>
+    <th scope="col">Status</th>
+    <th scope="col">Order Date</th>
+    <th scope="col"></th>
+  </thead>
+  <tbody>
+    {% for sell in sales %} {% if sell.ordered == True %}
+    <tr>
+      <th scope="row">{{ sell.id }}</th>
+      <td>
+        <a href="{% url 'gigs:show' sell.gig.id %}">{{ sell.gig.name }}</a>
+      </td>
+      <td><a href="{% url 'users:show' sell.user.id %}">{{ sell.user }}</a></td>
+      <form action="" method="POST">
+        {% csrf_token %} {% method_override 'PUT' %}
+        <input type="number" name="order" value="{{ sell.id }}" hidden />
+        <td>
+          <select class="form-select" name="delivered">
+            {% if sell.delivered == True %}
+            <option value="False">Pending</option>
+            <option value="True" selected>Delivered</option>
+            {% else %}
+            <option value="False" selected>Pending</option>
+            <option value="True">Delivered</option>
+            {% endif %}
+          </select>
+        </td>
+        <td>{{ sell.dateCreated }}</td>
+        <td><button class="btn btn-info btn-sm">Update</button></td>
+      </form>
+    </tr>
+    {% endif %} {% endfor %}
+  </tbody>
 </table>
 
 {% endblock %}

@@ -1,31 +1,28 @@
-{% extends 'partials/main.html' %}
-{% block content %}
+{% extends 'partials/main.html' %} {% block content %}
 
 <table class="table">
-    <thead>
-        <th scope="col">ID</th>
-        <th scope="col">Gig</th>
-        <th scope="col">Status</th>
-        <th scope="col">Order Date</th>
-    </thead>
-    <tbody>
-
-        {% for order in orders %}
-        {% if order.ordered == True %}
-        <tr>
-            <th scope="row">{{ order.id }}</th>
-            <td><a href="{% url 'gigs:show' order.gig.id %}">{{ order.gig.name }}</a></td>
-            {% if order.delivered == True %}
-            <td>Delivered</td>
-            {% else %}
-            <td>Pending</td>
-            {% endif %}
-            <td>{{ order.dateCreated }}</td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-
-    </tbody>
+  <thead>
+    <th scope="col">ID</th>
+    <th scope="col">Gig</th>
+    <th scope="col">Status</th>
+    <th scope="col">Order Date</th>
+  </thead>
+  <tbody>
+    {% for order in orders %} {% if order.ordered == True %}
+    <tr>
+      <th scope="row">{{ order.id }}</th>
+      <td>
+        <a href="{% url 'gigs:show' order.gig.id %}">{{ order.gig.name }}</a>
+      </td>
+      {% if order.delivered == True %}
+      <td>Delivered</td>
+      {% else %}
+      <td>Pending</td>
+      {% endif %}
+      <td>{{ order.dateCreated }}</td>
+    </tr>
+    {% endif %} {% endfor %}
+  </tbody>
 </table>
 
 {% endblock %}

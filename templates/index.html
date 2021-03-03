@@ -1,91 +1,112 @@
-{% extends 'partials/main.html' %}
-{% block content %}
+{% extends 'partials/main.html' %} {% block content %}
 
 <h1>FiverrClone</h1>
-<hr>
-<h5><strong>ATTENTION</strong> - Nothing in This Website is Real ! This Website is Just a Clone For Testing Purpose and
-    Gigs on this
-    Website are Totally Fake<br>When You Click On
-    Order, Just Hit The Cancel
-    Button & Order Will Be Saved :)</h5>
+<hr />
+<h5>
+  <strong>ATTENTION</strong> - Nothing in This Website is Real ! This Website is
+  Just a Clone For Testing Purpose and Gigs on this Website are Totally Fake<br />When
+  You Click On Order, Just Hit The Cancel Button & Order Will Be Saved :)
+</h5>
 
 <div class="row">
-    <div class="card col-xl-5 m-5">
-        <a href="{% url 'gigs:index' %}">
-            <img src="https://res.cloudinary.com/dw2u3eucc/image/upload/v1613942885/kobu-agency-7okkFhxrxNw-unsplash_1_dkzci8.jpg"
-                class="card-img-top img-fluid mt-3" alt="image">
-        </a>
-        <div class="card-body">
-            <a href="{% url 'gigs:index' %}">
-                <h5 class="card-title">Looking For a Service ?</h5>
-            </a>
-            <p class="card-text text-muted">Jump Right in Gigs and Find What You Want !</p>
-            <a href="{% url 'gigs:index'%}"><button class="btn btn-success">Gigs</button></a>
-            <br>
-        </div>
+  <div class="card col-xl-5 m-5">
+    <a href="{% url 'gigs:index' %}">
+      <img
+        src="https://res.cloudinary.com/dw2u3eucc/image/upload/v1613942885/kobu-agency-7okkFhxrxNw-unsplash_1_dkzci8.jpg"
+        class="card-img-top img-fluid mt-3"
+        alt="image"
+      />
+    </a>
+    <div class="card-body">
+      <a href="{% url 'gigs:index' %}">
+        <h5 class="card-title">Looking For a Service ?</h5>
+      </a>
+      <p class="card-text text-muted">
+        Jump Right in Gigs and Find What You Want !
+      </p>
+      <a href="{% url 'gigs:index'%}"
+        ><button class="btn btn-success">Gigs</button></a
+      >
+      <br />
     </div>
-    <div class="card col-xl-5 m-5">
-        <a href="{% url 'gigs:new' %}">
-            <img src="https://res.cloudinary.com/dw2u3eucc/image/upload/v1613942885/sigmund-Zs1zHhHBG8g-unsplash_ie7ubv.jpg"
-                class="card-img-top img-fluid mt-3" alt="image">
-        </a>
-        <div class="card-body">
-            <a href="{% url 'gigs:new' %}">
-                <h5 class="card-title">Have a Tallent ?</h5>
-            </a>
-            <p class="card-text text-muted">Start Share Your Gig's With The World !</p>
-            <a href="{% url 'gigs:new'%}"><button class="btn btn-primary">Create a Gig</button></a>
-            <br>
-        </div>
+  </div>
+  <div class="card col-xl-5 m-5">
+    <a href="{% url 'gigs:new' %}">
+      <img
+        src="https://res.cloudinary.com/dw2u3eucc/image/upload/v1613942885/sigmund-Zs1zHhHBG8g-unsplash_ie7ubv.jpg"
+        class="card-img-top img-fluid mt-3"
+        alt="image"
+      />
+    </a>
+    <div class="card-body">
+      <a href="{% url 'gigs:new' %}">
+        <h5 class="card-title">Have a Tallent ?</h5>
+      </a>
+      <p class="card-text text-muted">
+        Start Share Your Gig's With The World !
+      </p>
+      <a href="{% url 'gigs:new'%}"
+        ><button class="btn btn-primary">Create a Gig</button></a
+      >
+      <br />
     </div>
+  </div>
 </div>
 
 <h3 class="mt-4">Most Populer Gigs</h3>
-<hr>
+<hr />
 <div class="row">
+  {% for gig in mostPopulerGigs %}
 
-    {% for gig in mostPopulerGigs %}
-
-    <div class="card col-md-3 m-5">
-        <a href="{% url 'gigs:show' gig.id %}">
-            <img src="{{ gig.image.url }}" class="card-img-top img-fluid mt-3" alt="Gig image">
-        </a>
-        <div class="card-body">
-            <a href="{% url 'gigs:show' gig.id %}">
-                <h5 class="card-title">{{ gig.name }}</h5>
-            </a>
-            <p class="card-text text-muted">{{ gig.description }}</p>
-            <a href="{% url 'gigs:show' gig.id %}"><button class="btn btn-outline-primary">${{ gig.price }}</button></a>
-            <br>
-        </div>
+  <div class="card col-md-3 m-5">
+    <a href="{% url 'gigs:show' gig.id %}">
+      <img
+        src="{{ gig.image.url }}"
+        class="card-img-top img-fluid mt-3"
+        alt="Gig image"
+      />
+    </a>
+    <div class="card-body">
+      <a href="{% url 'gigs:show' gig.id %}">
+        <h5 class="card-title">{{ gig.name }}</h5>
+      </a>
+      <p class="card-text text-muted">{{ gig.description }}</p>
+      <a href="{% url 'gigs:show' gig.id %}"
+        ><button class="btn btn-outline-primary">${{ gig.price }}</button></a
+      >
+      <br />
     </div>
+  </div>
 
-    {% endfor %}
-
+  {% endfor %}
 </div>
 
 <h3 class="mt-4">Newest Gigs</h3>
-<hr>
+<hr />
 <div class="row">
+  {% for gig in newestGigs %}
 
-    {% for gig in newestGigs %}
-
-    <div class="card col-lg-3 m-5">
-        <a href="{% url 'gigs:show' gig.id %}">
-            <img src="{{ gig.image.url }}" class="card-img-top img-fluid mt-3" alt="Gig image">
-        </a>
-        <div class="card-body">
-            <a href="{% url 'gigs:show' gig.id %}">
-                <h5 class="card-title">{{ gig.name }}</h5>
-            </a>
-            <p class="card-text text-muted">{{ gig.description }}</p>
-            <a href="{% url 'gigs:show' gig.id %}"><button class="btn btn-outline-primary">${{ gig.price }}</button></a>
-            <br>
-        </div>
+  <div class="card col-lg-3 m-5">
+    <a href="{% url 'gigs:show' gig.id %}">
+      <img
+        src="{{ gig.image.url }}"
+        class="card-img-top img-fluid mt-3"
+        alt="Gig image"
+      />
+    </a>
+    <div class="card-body">
+      <a href="{% url 'gigs:show' gig.id %}">
+        <h5 class="card-title">{{ gig.name }}</h5>
+      </a>
+      <p class="card-text text-muted">{{ gig.description }}</p>
+      <a href="{% url 'gigs:show' gig.id %}"
+        ><button class="btn btn-outline-primary">${{ gig.price }}</button></a
+      >
+      <br />
     </div>
+  </div>
 
-    {% endfor %}
-
+  {% endfor %}
 </div>
 
 {% endblock %}

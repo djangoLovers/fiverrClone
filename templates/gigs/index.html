@@ -1,41 +1,53 @@
-{% extends 'partials/main.html' %}
-{% block content %}
+{% extends 'partials/main.html' %} {% block content %}
 
 <div class="row">
-    <div class='col-12 col-md-6 mx-auto my-5 py-5'>
-        <form method='GET' action="{% url 'gigs:search' %}">
-            <div class="input-group form-group-no-border mx-auto" style="margin-bottom: 0px; font-size: 32px;">
-                <span class="input-group-addon cfe-nav" style='color:#000'>
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </span>
-                <input type="text" name="q" data-toggle="popover" data-placement="bottom"
-                    data-content="Press enter to search" class="form-control cfe-nav mt-0 py-3" placeholder="Search ..."
-                    autofocus="autofocus">
-            </div>
-
-        </form>
-    </div>
+  <div class="col-12 col-md-6 mx-auto my-5 py-5">
+    <form method="GET" action="{% url 'gigs:search' %}">
+      <div
+        class="input-group form-group-no-border mx-auto"
+        style="margin-bottom: 0px; font-size: 32px"
+      >
+        <span class="input-group-addon cfe-nav" style="color: #000">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
+        <input
+          type="text"
+          name="q"
+          data-toggle="popover"
+          data-placement="bottom"
+          data-content="Press enter to search"
+          class="form-control cfe-nav mt-0 py-3"
+          placeholder="Search ..."
+          autofocus="autofocus"
+        />
+      </div>
+    </form>
+  </div>
 </div>
 
 <div class="row">
-
-    {% for gig in gigs %}
-    <div class="card col-lg-3 m-5">
-        <a href="{% url 'gigs:show' gig.id %}">
-            <img src="{{ gig.image.url }}" class="card-img-top img-fluid mt-3" alt="Gig image">
-        </a>
-        <div class="card-body">
-            <a href="{% url 'gigs:show' gig.id %}">
-                <h5 class="card-title">{{ gig.name }}</h5>
-            </a>
-            <p class="card-text text-muted">{{ gig.description }}</p>
-            <a href="{% url 'gigs:show' gig.id %}"><button class="btn btn-outline-primary">${{ gig.price }}</button></a>
-            <br>
-        </div>
+  {% for gig in gigs %}
+  <div class="card col-lg-3 m-5">
+    <a href="{% url 'gigs:show' gig.id %}">
+      <img
+        src="{{ gig.image.url }}"
+        class="card-img-top img-fluid mt-3"
+        alt="Gig image"
+      />
+    </a>
+    <div class="card-body">
+      <a href="{% url 'gigs:show' gig.id %}">
+        <h5 class="card-title">{{ gig.name }}</h5>
+      </a>
+      <p class="card-text text-muted">{{ gig.description }}</p>
+      <a href="{% url 'gigs:show' gig.id %}"
+        ><button class="btn btn-outline-primary">${{ gig.price }}</button></a
+      >
+      <br />
     </div>
+  </div>
 
-    {% endfor %}
-
+  {% endfor %}
 </div>
 
 {% endblock %}

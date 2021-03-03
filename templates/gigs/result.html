@@ -1,15 +1,24 @@
-{% extends 'partials/main.html' %}
-{% block content %}
+{% extends 'partials/main.html' %} {% block content %}
 
 <div style="text-align: center">
   {% if status == 'NOK' %}
   <h2>Success Payment</h2>
-  <p>Your Payment Was Successful ! You Can See Your Orders in <a href="{% url 'users:orders' request.user.id %}"
-      style="color: rgb(0, 0, 155);">here</a></p>
+  <p>
+    Your Payment Was Successful ! You Can See Your Orders in
+    <a
+      href="{% url 'users:orders' request.user.id %}"
+      style="color: rgb(0, 0, 155)"
+      >here</a
+    >
+  </p>
+
   {% else %}
+
   <h2>Fail Payment</h2>
   <p>Your Payment Was Failed ! Please try again ..</p>
+
   {% endif %}
+
   <p>Transaction ID : {{ authority }}</p>
 </div>
 

@@ -1,55 +1,67 @@
-{% extends 'partials/main.html' %}
-{% block content %}
+{% extends 'partials/main.html' %} {% block content %}
 
-<div class='row title-row my-5'>
-    <div class='col-12 py-0'>
-        <h3 class='my-0 py-0'>{{ count }} result(s)</h3>
-    </div>
+<div class="row title-row my-5">
+  <div class="col-12 py-0">
+    <h3 class="my-0 py-0">{{ count }} result(s)</h3>
+  </div>
 </div>
 
 <div class="row">
-    <form novalidate>
-        <div class="input-group form-group-no-border mx-auto col-md-12 mb-3"
-            style="margin-bottom: 0px; font-size: 32px;">
-            <span class="input-group-addon cfe-nav" style='color:#000'>
-                <i class="fa fa-search" aria-hidden="true"></i>
-            </span>
-            <input type="text" name="q" data-toggle="popover" data-placement="bottom"
-                data-content="Press enter to search" class="form-control cfe-nav mt-0 py-3" placeholder="Search ..."
-                autofocus="autofocus" value="{{ request.GET.q }}">
-        </div>
-        <div class="col-md-12 mb-3">
-            <label class="form-label" for="category">Category</label>
-            <select class="form-select" name="category" id="category" multiple>
-                {% for category in categories %}
-                <option value="{{ category.id }}">{{ category }}</option>
-                {% endfor %}
-            </select>
-            <button class="btn btn-primary mt-3">Filter</button>
-        </div>
-    </form>
-
+  <form novalidate>
+    <div
+      class="input-group form-group-no-border mx-auto col-md-12 mb-3"
+      style="margin-bottom: 0px; font-size: 32px"
+    >
+      <span class="input-group-addon cfe-nav" style="color: #000">
+        <i class="fa fa-search" aria-hidden="true"></i>
+      </span>
+      <input
+        type="text"
+        name="q"
+        data-toggle="popover"
+        data-placement="bottom"
+        data-content="Press enter to search"
+        class="form-control cfe-nav mt-0 py-3"
+        placeholder="Search ..."
+        autofocus="autofocus"
+        value="{{ request.GET.q }}"
+      />
+    </div>
+    <div class="col-md-12 mb-3">
+      <label class="form-label" for="category">Category</label>
+      <select class="form-select" name="category" id="category" multiple>
+        {% for category in categories %}
+        <option value="{{ category.id }}">{{ category }}</option>
+        {% endfor %}
+      </select>
+      <button class="btn btn-primary mt-3">Filter</button>
+    </div>
+  </form>
 </div>
 
 <div class="row">
+  {% for gig in results %}
 
-    {% for gig in results %}
-
-    <div class="card col-lg-3 m-5">
-        <a href="{% url 'gigs:show' gig.id %}">
-            <img src="{{ gig.image.url }}" class="card-img-top img-fluid mt-3" alt="Gig image">
-        </a>
-        <div class="card-body">
-            <a href="{% url 'gigs:show' gig.id %}">
-                <h5 class="card-title">{{ gig.name }}</h5>
-            </a>
-            <p class="card-text text-muted">{{ gig.description }}</p>
-            <a href="{% url 'gigs:show' gig.id %}"><button class="btn btn-outline-primary">${{ gig.price }}</button></a>
-            <br>
-        </div>
+  <div class="card col-lg-3 m-5">
+    <a href="{% url 'gigs:show' gig.id %}">
+      <img
+        src="{{ gig.image.url }}"
+        class="card-img-top img-fluid mt-3"
+        alt="Gig image"
+      />
+    </a>
+    <div class="card-body">
+      <a href="{% url 'gigs:show' gig.id %}">
+        <h5 class="card-title">{{ gig.name }}</h5>
+      </a>
+      <p class="card-text text-muted">{{ gig.description }}</p>
+      <a href="{% url 'gigs:show' gig.id %}"
+        ><button class="btn btn-outline-primary">${{ gig.price }}</button></a
+      >
+      <br />
     </div>
-    {% endfor %}
+  </div>
+  {% endfor %}
 </div>
-
 
 {% endblock %}

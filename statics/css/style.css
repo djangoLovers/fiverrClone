@@ -1,4 +1,5 @@
-a, a:hover{
+a,
+a:hover {
   text-decoration: none;
   color: black;
 }
@@ -7,7 +8,12 @@ a, a:hover{
   margin-left: auto;
 }
 
-a.card-link ,button.btn-info ,button.btn-warning ,button.btn-info:hover ,button.btn-warning:hover,button.btn-outline-info:hover{
+a.card-link,
+button.btn-info,
+button.btn-warning,
+button.btn-info:hover,
+button.btn-warning:hover,
+button.btn-outline-info:hover {
   color: #ffffff;
 }
 
@@ -15,8 +21,8 @@ h1.logout {
   text-align: center;
 }
 
-@media(width:885px){
+@media (width: 885px) {
   div.col-lg-5 {
-    max-width:330px
+    max-width: 330px;
   }
 }

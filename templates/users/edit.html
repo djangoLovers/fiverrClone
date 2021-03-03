@@ -1,85 +1,116 @@
-{% extends 'partials/main.html' %}
-{% load method_override %}
-{% load countries %}
-{% block content %}
+{% extends 'partials/main.html' %} {% load method_override %} {% load countries %} {% block content %}
 
 <div class="col-6 offset-3">
+  <div class="row">
+    <h1 class="mb-4 col-md-6">Editing Profile</h1>
+    <form
+      action="{% url 'users:show' profile.id %}"
+      class="needs-validation"
+      method="POST"
+      enctype="multipart/form-data"
+      novalidate
+    >
+      {% csrf_token %} {% method_override 'PUT' %}
 
-    <div class="row">
-        <h1 class="mb-4 col-md-6">Editing Profile</h1>
-        <form action="{% url 'users:show' profile.id %}" class="needs-validation" method="POST"
-            enctype="multipart/form-data" novalidate>
-            {% csrf_token %}
-            {% method_override 'PUT' %}
+      <div class="row">
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="first_name">First Name</label>
+          <input
+            class="form-control"
+            name="first_name"
+            type="text"
+            id="first_name"
+            placeholder="Enter Your First Name"
+            value="{{ profile.first_name }}"
+            required
+          />
 
-            <div class="row">
+          <div class="valid-feedback">Looks good!</div>
+        </div>
 
-                <div class="mb-3 col-md-6">
-                    <label class="form-label" for="first_name">First Name</label>
-                    <input class="form-control" name="first_name" type="text" id="first_name"
-                        placeholder="Enter Your First Name" value="{{ profile.first_name }}" required>
+        <div class="mb-3 col-md-6">
+          <label class="form-label" for="last_name">Last Name</label>
+          <input
+            class="form-control"
+            name="last_name"
+            type="text"
+            id="last_name"
+            placeholder="Enter Your Last Name"
+            value="{{ profile.last_name }}"
+            required
+          />
 
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
+          <div class="valid-feedback">Looks good!</div>
+        </div>
 
-                <div class="mb-3 col-md-6">
-                    <label class="form-label" for="last_name">Last Name</label>
-                    <input class="form-control" name="last_name" type="text" id="last_name"
-                        placeholder="Enter Your Last Name" value="{{ profile.last_name }}" required>
+        <div class="mb-3 col-md-12">
+          <label class="form-label" for="description">Description</label>
+          <input
+            class="form-control"
+            name="description"
+            type="text"
+            id="description"
+            placeholder="Write a Short Description"
+            value="{{ profile.description }}"
+            required
+          />
 
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
+          <div class="valid-feedback">Looks good!</div>
+        </div>
 
-                <div class="mb-3 col-md-12">
-                    <label class="form-label" for="description">Description</label>
-                    <input class="form-control" name="description" type="text" id="description"
-                        placeholder="Write a Short Description" value="{{ profile.description }}" required>
+        <div class="mb-3 col-md-12">
+          <label class="form-label" for="biography">Biography</label>
+          <textarea
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            name="biography"
+            rows="3"
+            placeholder="Hello My Name is .."
+            required
+          >
+          {{ profile.biography }}</textarea
+          >
 
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
+          <div class="valid-feedback">Looks good!</div>
+        </div>
 
-                <div class="mb-3 col-md-12">
-                    <label class="form-label" for="biography">Biography</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" name="biography" rows="3"
-                        placeholder="Hello My Name is .." required>{{ profile.biography }}</textarea>
+        <div class="row">
+          <div class="mb-3 col-md-12">
+            <label for="image" class="form-label"
+              >Upload an image of Yourself</label
+            >
+            <input
+              class="form-control"
+              type="file"
+              name="image"
+              id="image"
+              accept="image/*"
+            />
+          </div>
+        </div>
 
-                    <div class="valid-feedback">
-                        Looks good!
-                    </div>
-                </div>
+        <div class="mb-3 col-md-12">
+          <label for="country" class="form-label">Country</label>
+          {% get_countries as countries %}
+          <select
+            name="country"
+            id="country"
+            class="form-select form-select-sm"
+          >
+            {% for country in countries %} {% if profile.country == country.code %}
+            <option value="{{ country.code }}" selected>
+              {{ country.name }}
+            </option>
+            {% else %}
+            <option value="{{ country.code }}">{{ country.name }}</option>
+            {% endif %} {% endfor %}
+          </select>
+        </div>
+      </div>
 
-                <div class="row">
-                    <div class="mb-3 col-md-12">
-                        <label for="image" class="form-label">Upload an image of Yourself</label>
-                        <input class="form-control" type="file" name="image" id="image" accept="image/*">
-                    </div>
-                </div>
+      <button class="btn btn-outline-info">Update</button>
+    </form>
+  </div>
 
-                <div class="mb-3 col-md-12">
-                    <label for="country" class="form-label">Country</label>
-                    {% get_countries as countries %}
-                    <select name="country" id="country" class="form-select form-select-sm">
-                        {% for country in countries %}
-                        {% if profile.country == country.code %}
-                        <option value="{{ country.code }}" selected>{{ country.name }}</option>
-                        {% else %}
-                        <option value="{{ country.code }}">{{ country.name }}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-
-            </div>
-
-            <button class="btn btn-outline-info">Update</button>
-
-        </form>
-    </div>
-
-    {% endblock %}
+  {% endblock %}
+</div>
