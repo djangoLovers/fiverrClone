@@ -37,8 +37,8 @@
       {% endif %}
     </div>
     <div class="card-body">
-      Category : {% for category in gig.category.all %} {% if category ==
-      gig.category.last %}
+      Category : {% for category in gig.category.all %}
+      {% if category == gig.category.last %}
       <a href="{% url 'gigs:search' %}?q=&category={{ category.id }}"
         >{{ category.name }}</a
       >
