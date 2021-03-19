@@ -3,7 +3,7 @@ django-dotenv==1.4.2
 django-allauth==0.44.0
 django-filter==2.4.0
 django-method-override==1.0.4
-django-countries==7.0
+django-countries==7.1
 django-3-jet==1.0.8
 cloudinary==1.24.0
 zeep==4.0.0
