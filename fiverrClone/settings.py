@@ -1,18 +1,17 @@
+from pathlib import Path
 import os
 import dj_database_url
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-from pathlib import Path
-from django.conf import settings
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'fiverr-clone.herokuapp.com']
+ALLOWED_HOSTS = ['fiverr-clone.herokuapp.com']
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -20,8 +19,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 INSTALLED_APPS = [
-    'jet.dashboard',
-    'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,6 +47,7 @@ LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'csp.middleware.CSPMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -78,20 +76,7 @@ TEMPLATES = [
     },
 ]
 
-X_FRAME_OPTIONS = 'SAMEORIGIN'
-
 WSGI_APPLICATION = 'fiverrClone.wsgi.application'
-
-""" if settings.DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'db.sqlite3',
-        }
-    }
-
-
-else: """
 
 DATABASES = {
     'default': {
@@ -150,7 +135,20 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_URL = '/statics/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'statics']
+
+
+# Security Staff, Very Important
+
+SECURE_SSL_REDIRECT = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+CSP_DEFAULT_SRC = (
+    "'self'", "https://cdn.jsdelivr.net/", "http://res.cloudinary.com/"
+)
