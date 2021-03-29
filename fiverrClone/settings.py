@@ -11,7 +11,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['fiverr-clone.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'fiverr-clone.herokuapp.com']
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -149,6 +149,5 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-CSP_DEFAULT_SRC = (
-    "'self'", "https://cdn.jsdelivr.net/", "http://res.cloudinary.com/"
-)
+CSP_DEFAULT_SRC = ("'self'")
+CSP_IMG_SRC = ("'self'", "https://res.cloudinary.com/")
