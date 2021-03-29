@@ -150,4 +150,8 @@ SECURE_HSTS_PRELOAD = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CSP_DEFAULT_SRC = ("'self'")
-CSP_IMG_SRC = ("'self'", "https://res.cloudinary.com/")
+CSP_IMG_SRC = (
+    "'self'",
+    "https://res.cloudinary.com/",
+    "http://res.cloudinary.com/"
+)
