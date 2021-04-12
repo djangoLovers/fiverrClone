@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import index, show, new, edit, comment, order, callback, result, search
+from .views import index, show, new, edit, comment,\
+    order, callback, result, search
 
 
 urlpatterns = [

@@ -3,6 +3,8 @@ from django.db.models import Q
 from django.db.models.deletion import CASCADE
 from django.contrib.auth import get_user_model
 from cloudinary.models import CloudinaryField
+from .apps import GigsConfig
+
 
 UserProfile = get_user_model()
 
@@ -76,3 +78,6 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.gig} - {self.user}'
+
+
+GigsConfig.default_auto_field = models.BigAutoField

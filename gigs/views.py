@@ -180,7 +180,7 @@ def callback(request):
     }
 
     if status == 'NOK':
-        response = requests.post(
+        requests.post(
             'https://api.zarinpal.com/pg/v4/payment/verify.json', data)
 
         gig = Gig.objects.get(id=order.gig.id)

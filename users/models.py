@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django_countries.fields import CountryField
-from django.conf import settings
 from cloudinary.models import CloudinaryField
+from .apps import UsersConfig
 
 
 class UserProfile(AbstractUser):
@@ -19,3 +19,6 @@ class UserProfile(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+UsersConfig.default_auto_field = models.BigAutoField
