@@ -13,12 +13,12 @@ class UserProfile(AbstractUser):
     dateCreated = models.DateTimeField(auto_now_add=True)
     country = CountryField(default="IR")
 
+    def __str__(self):
+        return self.username
+
     def save(self, *args, **kwargs):
         self.fullName = f'{self.first_name} {self.last_name}'
         return super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.username
 
 
 UsersConfig.default_auto_field = models.BigAutoField
