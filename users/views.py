@@ -17,9 +17,6 @@ def show(request, id):
                 request.PUT, request.FILES, instance=profile)
             if form.is_valid():
                 form.save()
-                pro = get_user_model().objects.get(id=form.id)
-                pro.image = pro.image.build_url(secure=True)
-                pro.save()
                 messages.success(request, 'Profile Successfully Updated')
             else:
                 messages.error(request, "Sorry, Somthing Went Wrong !")
