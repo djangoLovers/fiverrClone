@@ -106,7 +106,8 @@ SOCIALACCOUNT_PROVIDERS = {
 cloudinary.config(
     cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
     api_key=os.environ.get('CLOUDINARY_API_KEY'),
-    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
+    api_secret=os.environ.get('CLOUDINARY_API_SECRET'),
+    secure=True
 )
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -149,7 +150,8 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-CSP_DEFAULT_SRC = ("'self'")
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'",)
 CSP_IMG_SRC = (
     "'self'",
     "https://res.cloudinary.com/",
