@@ -17,6 +17,9 @@ def index(request):
             newForm.user = request.user
             newForm.save()
             form.save_m2m()
+            gig = Gig.objects.get(id=newForm.id)
+            gig.image.url = gig.image.build_url(secure=True)
+            gig.save()
             messages.success(request, 'Gig Successfully Created')
             return redirect('gigs:show', newForm.id)
         else:
@@ -62,6 +65,9 @@ def show(request, id):
                 newForm.user = gig.user
                 newForm.save()
                 form.save_m2m()
+                gig = Gig.objects.get(id=newForm.id)
+                gig.image = gig.image.build_url(secure=True)
+                gig.save()
                 messages.success(request, 'Gig Successfully Updated')
             else:
                 messages.error(request, 'Somthing Went Wrong ...')
@@ -83,6 +89,9 @@ def new(request):
             newForm.user = request.user
             newForm.save()
             form.save_m2m()
+            gig = Gig.objects.get(id=newForm.id)
+            gig.image.url = gig.image.build_url(secure=True)
+            gig.save()
             messages.success(request, 'Gig Successfully Created')
             return redirect('gigs:show', newForm.id)
         else:
