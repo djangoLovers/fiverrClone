@@ -10,9 +10,11 @@ cd fiverrClone
 python -m venv env
 source env/bin/activate
 python -m pip install -r requirements.txt
-python manage.py migrate
-
-# Make a .env file and Put YOUR Credential on than file
-
-python manage.py runserver
 ```
+
+Make a .env file and Put your Credential on than file
+
+``` sh
+python manage.py migrate
+python manage.py runserver
+````
