@@ -12,7 +12,7 @@ source env/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-Make a .env file and Put your Credential on than file
+make a .env file and put your credential on than file
 
 ``` sh
 python manage.py migrate
