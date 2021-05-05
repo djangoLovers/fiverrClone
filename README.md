@@ -5,8 +5,10 @@ a Team Project, With a Purpose of Learning Django, Git, Agile/Scrum and Lots of 
 
 
 ``` sh
+git clone https://github.com/djangoLovers/fiverrClone.git
+cd fiverrClone
 python -m venv env
-cd env
+source env/bin/activate
 python -m pip install -r requirements.txt
 python manage.py migrate
 
