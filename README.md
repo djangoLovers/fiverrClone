@@ -10,7 +10,7 @@ cd env
 python -m pip install -r requirements.txt
 python manage.py migrate
 
-# Make a .env file and Put YOUR Credential on than file .
+# Make a .env file and Put YOUR Credential on than file
 
 python manage.py runserver
 ```
