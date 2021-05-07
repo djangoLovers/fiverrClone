@@ -8,7 +8,20 @@ from cloudinary.models import CloudinaryField
 from .apps import CoreConfig
 
 
-UserProfile = get_user_model()
+class UserProfile(AbstractUser):
+    fullName = models.CharField(max_length=20)
+    description = models.TextField(max_length=40, blank=True)
+    biography = models.CharField(max_length=80, blank=True)
+    image = CloudinaryField('image')
+    dateCreated = models.DateTimeField(auto_now_add=True)
+    country = CountryField(default="IR")
+
+    def __str__(self):
+        return self.username
+
+    def save(self, *args, **kwargs):
+        self.fullName = f'{self.first_name} {self.last_name}'
+        return super().save(*args, **kwargs)
 
 
 class GigQuerySet(models.QuerySet):
@@ -80,22 +93,6 @@ class Order(models.Model):
 
     def __str__(self):
         return f'{self.gig} - {self.user}'
-
-
-class UserProfile(AbstractUser):
-    fullName = models.CharField(max_length=20)
-    description = models.TextField(max_length=40, blank=True)
-    biography = models.CharField(max_length=80, blank=True)
-    image = CloudinaryField('image')
-    dateCreated = models.DateTimeField(auto_now_add=True)
-    country = CountryField(default="IR")
-
-    def __str__(self):
-        return self.username
-
-    def save(self, *args, **kwargs):
-        self.fullName = f'{self.first_name} {self.last_name}'
-        return super().save(*args, **kwargs)
 
 
 CoreConfig.default_auto_field = models.BigAutoField

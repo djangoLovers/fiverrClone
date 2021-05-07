@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-AUTH_USER_MODEL = 'users.UserProfile'
+AUTH_USER_MODEL = 'core.UserProfile'
 LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
@@ -78,7 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fiverrClone.wsgi.application'
 
-DATABASES = {
+""" DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'fiverrClone',
@@ -90,7 +90,15 @@ DATABASES = {
 }
 
 DATABASES['default'] = dj_database_url.config(
-    conn_max_age=600, ssl_require=True)
+    conn_max_age=600, ssl_require=True) """
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
+    }
+}
+
 
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_PROVIDERS = {

@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import UserProfile
+from core.models import UserProfile
 
 
 class UserProfileForm(ModelForm):

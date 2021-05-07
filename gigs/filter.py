@@ -1,6 +1,6 @@
 import django_filters
 
-from .models import Gig
+from core.models import Gig
 
 
 class gigFilter(django_filters.FilterSet):

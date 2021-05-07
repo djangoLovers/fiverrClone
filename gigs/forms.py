@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Comment, Gig
+from core.models import Comment, Gig
 
 
 class GigForm(ModelForm):

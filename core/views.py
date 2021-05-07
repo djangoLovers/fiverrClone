@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from gigs.models import Gig
+from core.models import Gig
 
 
 def index(request):

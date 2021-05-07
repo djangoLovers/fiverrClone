@@ -3,8 +3,8 @@ from os import environ
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from core.models import Category, Comment, Gig, Order
 from .forms import GigForm, CommentForm
-from .models import Category, Comment, Gig, Order
 from .filter import gigFilter
 
 

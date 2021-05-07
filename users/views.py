@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import get_user_model
 from django.contrib import messages
-from gigs.models import Order
+from core.models import Order
 from .forms import UserProfileForm
 
 
