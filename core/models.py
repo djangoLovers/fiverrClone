@@ -1,11 +1,8 @@
 from django.db import models
 from django.db.models import Q
-from django.db.models.deletion import CASCADE
-from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django_countries.fields import CountryField
 from cloudinary.models import CloudinaryField
-from .apps import CoreConfig
 
 
 class UserProfile(AbstractUser):
@@ -54,7 +51,7 @@ class Category(models.Model):
 
 class Gig(models.Model):
     user = models.ForeignKey(
-        UserProfile, on_delete=CASCADE, blank=True, related_name="gigs_user")
+        UserProfile, on_delete=models.CASCADE, blank=True, related_name="gigs_user")
     name = models.CharField(max_length=90)
     price = models.FloatField(null=True)
     description = models.CharField(max_length=90, null=True)
@@ -72,8 +69,8 @@ class Gig(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(
-        UserProfile, on_delete=CASCADE, related_name="comments_user")
-    gig = models.ForeignKey(Gig, on_delete=CASCADE,
+        UserProfile, on_delete=models.CASCADE, related_name="comments_user")
+    gig = models.ForeignKey(Gig, on_delete=models.CASCADE,
                             related_name="comments_gig")
     body = models.CharField(max_length=255)
     rating = models.IntegerField()
@@ -85,14 +82,12 @@ class Comment(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(
-        UserProfile, on_delete=CASCADE, related_name="orders_user")
-    gig = models.ForeignKey(Gig, on_delete=CASCADE, related_name="orders_gig")
+        UserProfile, on_delete=models.CASCADE, related_name="orders_user")
+    gig = models.ForeignKey(Gig, on_delete=models.CASCADE,
+                            related_name="orders_gig")
     delivered = models.BooleanField(default=False)
     ordered = models.BooleanField(default=False)
     dateCreated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.gig} - {self.user}'
-
-
-CoreConfig.default_auto_field = models.BigAutoField
